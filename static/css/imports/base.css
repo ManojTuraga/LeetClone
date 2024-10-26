@@ -1,0 +1,47 @@
+/******************************************************************************
+Imports
+******************************************************************************/
+@import url( "globals.css" );
+@import url( "sidebar.css" );
+@import url( "auth_buttons.css" );
+
+body 
+    {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    }
+
+.header 
+    {
+    height: 50px;
+    width: 100%;
+    margin-left: var( --side-bar-max-size );
+
+    background-color: #000;
+    color: white;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: fixed;
+    
+    transition: margin-left var( --base-animation-time );
+    }
+
+.header.collapsed 
+    {
+    margin-left: var( --side-bar-min-size );
+
+    transition: margin-left var( --base-animation-time );
+    }
+    
+.logo img 
+    {
+    height: 225px;
+    width : 225px;
+    margin-top: 50px;
+    }

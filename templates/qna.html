@@ -1,0 +1,30 @@
+{% extends "imports/base.html" %}
+
+{% block head %}
+<title>Code Executor</title>
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/qna_style.css' ) }}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="prompt-box">
+        <h2>Prompt</h2>
+        <p id="promptText">Write a function that adds two numbers.</p>
+    </div>
+    <div class="editor-output">
+        <div class="editor">
+            <h2>Editor</h2>
+            <textarea id="code" placeholder="Write your code here..."></textarea>
+            <button id="runButton">Run Code</button>
+        </div>
+        <div class="output">
+            <h2>Output</h2>
+            <pre id="outputBox"></pre>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for( 'static', filename='js/qna_script.js' ) }}"></script>
+{% endblock %}

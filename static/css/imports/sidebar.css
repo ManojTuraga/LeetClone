@@ -1,0 +1,72 @@
+@import url( "globals.css" );
+
+.sidebar 
+    {
+    background-color: #333;
+    color: white;
+    
+    width: var( --side-bar-max-size );
+    height: 100vh;
+    
+    position: fixed;
+    overflow: hidden;
+    z-index: var( --max-z-val ); 
+    display: flex;
+    flex-direction: column;
+    
+    transition: width var( --base-animation-time );
+    }
+
+.sidebar a 
+    {
+    color: white;
+
+    display: block;
+    padding: 10px;
+    pointer-events: auto;
+    
+    text-decoration: none;
+    font-size: 18px;
+    
+    transition: all var( --base-animation-time );
+    transition: opacity calc( var( --base-animation-time ) * 5 );
+    }
+
+.sidebar a:hover 
+    {
+    background-color: #575757;
+    }
+
+.sidebar.collapsed 
+    {
+    width: var( --side-bar-min-size );
+    }
+
+.sidebar.collapsed a 
+    {
+    opacity: 0;
+    transition: opacity calc( var( --base-animation-time ) / 5 );
+    }
+
+.toggle-btn 
+    {
+    margin-top: auto; 
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color var( --base-animation-time );
+    }
+
+.toggle-btn:hover
+    {
+    background-color: #575757;
+    border-radius: 5px;
+    width: 100%;
+    }
+
+.toggle-btn.collapsed 
+    {
+    transform: rotate(180deg);
+    }

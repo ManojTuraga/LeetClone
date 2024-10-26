@@ -1,0 +1,47 @@
+@import url( "globals.css" );
+
+.auth-buttons 
+    {
+    display: flex;
+    gap: 10px;
+    margin-right: calc( var( --side-bar-min-size ) + var( --side-bar-max-size ) - 15px );
+    transition: margin-right var( --base-animation-time );
+    }
+
+.auth-buttons.collapsed
+    {
+    margin-right: calc( var( --side-bar-min-size ) + 15px );
+    transition: margin-right var( --base-animation-time );
+    }
+    
+.auth-buttons .login-btn 
+    {
+    background-color: #575757;
+    color: white;
+    border: thin double ;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    }
+    
+.auth-buttons .login-btn:hover
+    {
+    background-color: #ef0303;
+    }
+    
+.auth-buttons .signup-btn 
+    {
+    background-color: #575757;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    }
+    
+.auth-buttons .signup-btn:hover 
+    {
+    background-color: #ef0303;
+    }

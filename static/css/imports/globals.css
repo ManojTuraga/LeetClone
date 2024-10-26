@@ -1,0 +1,28 @@
+/*
+Module: globals.css
+Creation Date: October 22th, 2024
+Author: Manoj Turaga
+Contributors: Manoj Turaga, Clare Channel
+
+Description:
+
+Inputs:
+Outputs:
+
+Sources: W3Schools
+*/
+
+:root
+    {
+    /* Animation Related variables */
+    --base-animation-time: 0.3s;
+
+    /* Size Related Variables */
+    --side-bar-min-size: 30px;
+    --side-bar-max-size: 250px;
+
+    --content-offset-from-collapse: 30px;
+
+    /* Positioning Related Variables*/
+    --max-z-val: 1000;
+    }
