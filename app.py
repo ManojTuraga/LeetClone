@@ -34,6 +34,8 @@ Sources: W3Schools, Flask Documentation
 # request object
 from flask import Flask, render_template, request
 
+from modules import questions as q
+
 ###############################################################################
 # Global Variables
 ###############################################################################
@@ -41,6 +43,8 @@ from flask import Flask, render_template, request
 # Create our global instance of the flask app.
 # Applying decorators to this obe
 app = Flask( __name__ )
+
+qs = q.Questions()
 
 # Define a list of html indexes that are
 # directly accessed from the page
@@ -65,20 +69,23 @@ def home():
 
 @app.route( '/qna', methods=[ "GET","POST" ] )
 def qna():
+    question_info = qs.get_question_info( 1 )
+
     if request.method == "POST":
         data = request.get_data()
         print("here")
         file = open( "test.txt", 'wb' )
         file.write( data )
-    return render_template( 'qna.html', links=list_of_base_pages, active_page="qna" )
+        
+    return render_template( 'qna.html', links=list_of_base_pages, active_page="qna", question_info=question_info )
 
 @app.route( '/questions' )
 def questions():
-    return "TODO"
+    return render_template( 'questions.html', links=list_of_base_pages, active_page="questions" )
 
 @app.route( '/pvp' )
 def pvp():
-    return "TODO"
+    return render_template( 'pvp.html', links=list_of_base_pages, active_page="pvp" )
 
 ###############################################################################
 # Procedures

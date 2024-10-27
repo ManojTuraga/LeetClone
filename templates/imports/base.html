@@ -14,7 +14,7 @@
                 {% if page[ 0 ] != active_page %}
                 <a href="{{ page[ 0 ] }}">{{ page[ 1 ] }}</a>
                 {% else %}
-                <a>{{ page[ 1 ] }}</a>
+                <a id="activepage">{{ page[ 1 ] }}</a>
                 {% endif %}
             {% endfor %}
             <button class="toggle-btn" id="toggle-btn">&#x25C0;</button>
@@ -33,6 +33,7 @@
         <!-- Main -->
         <div class="main-content" id="main-content">
         {% block main %}
+        <p>TODO</p>
         {% endblock %}
         </div>
 
