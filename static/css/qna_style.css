@@ -1,30 +1,56 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: black;
-    margin: 0;
-    padding: 0;
-}
+@import url("imports/base.css");
 
 .container {
     display: flex;
-    height: 100vh;
-    padding: 10px;
+    height: 100vh; /* Make the container take up the full viewport height */
+    flex-direction: row;
+    overflow: hidden; /* Prevent scrolling */
+    align-items: stretch; /* Stretch items to fill the container */
 }
 
-.prompt-box {
-    width: 30%;
-    padding: 20px;
+.prompt-and-test-cases {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-right: 10px; /* Add padding to the right */
+}
+
+.editor-and-config {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-left: 10px; /* Add padding to the left */
+}
+
+.prompt-box, .test {
+    flex: 1; /* Make each box take up 50% of the height */
     background: black;
     box-shadow: 0 0 10px black;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px; /* Add some space between the boxes */
+    overflow: hidden; /* Prevent scrolling */
 }
 
-.prompt-box h2 {
+.prompt-box h2, .test h2 {
     color: white;
     margin-top: 0;
 }
 
-.prompt-box p {
-    height: 80%;
+.prompt-box p, .test p {
+    flex-grow: 1; /* Make the content expand to fill the available space */
+    margin: 0;
+    padding: 10px;
+    color: white;
+    border: 1px solid rgba(255, 0, 0, 0.283);
+    border-radius: 5px;
+    background: rgb(33, 31, 31);
+    overflow: hidden; /* Prevent scrolling */
+}
+
+textarea#code {
+    height: 100vh;
+    width: 100%;
     margin: 0;
     padding: 10px;
     color: white;
@@ -32,65 +58,5 @@ body {
     border-radius: 5px;
     background: rgb(33, 31, 31);
     overflow: auto;
-}
-
-.editor-output {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.editor {
-    flex: 2;
-    padding: 10px;
-    background: black;
-    box-shadow: 0 0 10px black;
-}
-
-.editor h2 {
-    margin-top: 1;
-    color: white;
-}
-
-.editor textarea {
-    width: 95%;
-    height: 80%;
-    resize: none;
-    background-color: rgb(33, 31, 31);
-    border: 1px solid rgba(255, 0, 0, 0.283);
-    border-radius: 5px;
-    padding: 10px;
-    color: white;
-}
-
-.output {
-    flex: 1;
-    padding: 20px;
-    background: rgb(33, 31, 31);
-    border: 1px solid rgba(255, 0, 0, 0.283);
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.283);
-    overflow-y: auto;
-    color: white;
-    margin-bottom: 50px;
-    margin-right: 10px;
-}
-
-.output h2 {
-    color: white;
-    margin-top: 0;
-}
-
-#runButton {
-    padding: 10px 20px;
-    background-color: rgba(228, 40, 40, 0.922);
-    color: black;
-    border: thin double;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#runButton:hover {
-    background-color: rgb(0, 255, 149);
+    align-self: flex-start; /* Align the textarea with the top of the box */
 }

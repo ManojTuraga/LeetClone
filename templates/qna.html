@@ -7,20 +7,27 @@
 
 {% block main %}
 <div class="container">
-    <div class="prompt-box">
-        <h2>Prompt</h2>
-        <p id="promptText">{{ question_info[ "prompt" ] }}</p>
+    <div class="prompt-and-test-cases">
+        <div class="prompt-box">
+            <h2>Prompt</h2>
+            <p id="promptText">{{ question_info[ "prompt" ] }}</p>
+        </div>
+        <div class="test">
+            <h2>Test Cases</h2>
+            <p id="test-cases">
+                {% for case in question_info[ "tests" ] %}
+                {{ case }} <br>
+                {% endfor %}
+            </p>
+        </div>
     </div>
-    <div class="editor-output">
+    <div class="editor-and-config">
+        <div class="select-and-submit">
+        <button id="runButton">Run Code</button>
+        </div>
         <div class="editor">
-            <h2>Editor</h2>
             <textarea id="code" placeholder="Write your code here..."></textarea>
-            <button id="runButton">Run Code</button>
-        </div>
-        <div class="output">
-            <h2>Output</h2>
-            <pre id="outputBox"></pre>
-        </div>
+        </div>        
     </div>
 </div>
 {% endblock %}

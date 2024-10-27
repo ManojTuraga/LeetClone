@@ -21,6 +21,9 @@ Sources: W3Schools
     --side-bar-min-size: 30px;
     --side-bar-max-size: 250px;
 
+    --header-height: 50px;
+    --header-padding: 10px;
+
     --content-offset-from-collapse: 30px;
 
     /* Positioning Related Variables*/
