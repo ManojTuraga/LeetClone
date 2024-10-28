@@ -41,6 +41,14 @@ Sources: W3Schools, Flask Documentation:
     <div class="editor-and-config">
         <div class="select-and-submit">
         <button id="runButton">Run Code</button>
+        <div class="dropdown">
+            <button class="dropdown-button">python</button>
+            <div class="dropdown-content">
+                {% for lang in supported_langs %}
+                <p>{{ lang }}</p>
+                {% endfor %}
+            </div>
+          </div>
         </div>
         <div class="editor">
             <textarea id="code" placeholder="Write your code here..."></textarea>
