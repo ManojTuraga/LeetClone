@@ -1,5 +1,18 @@
+/*
+Module: qna_style.css
+Creation Date: October 22th, 2024
+Author: Clare Channel
+Contributors: Manoj Turaga, Clare Channel
+
+Description:
+    This module contains all the styling for the QNA page
+    
+Sources: W3Schools, ChatGPT
+*/
+
 @import url("imports/base.css");
 
+/* Styling for the parent container */
 .container {
     display: flex;
     height: 100vh; /* Make the container take up the full viewport height */
@@ -8,6 +21,7 @@
     align-items: stretch; /* Stretch items to fill the container */
 }
 
+/* Styling for the prompts and test cases section of the page */
 .prompt-and-test-cases {
     display: flex;
     flex-direction: column;
@@ -15,6 +29,7 @@
     padding-right: 10px; /* Add padding to the right */
 }
 
+/* Styling for the editor and config section of the page */
 .editor-and-config {
     display: flex;
     flex-direction: column;
@@ -22,6 +37,7 @@
     padding-left: 10px; /* Add padding to the left */
 }
 
+/* Styling for just the prompt box and the test section */
 .prompt-box, .test {
     flex: 1; /* Make each box take up 50% of the height */
     background: black;
@@ -32,11 +48,13 @@
     overflow: hidden; /* Prevent scrolling */
 }
 
+/* Styling for the labels of the prompt box and the test section */
 .prompt-box h2, .test h2 {
     color: white;
     margin-top: 0;
 }
 
+/* Styling for content within the prompt box and test section */
 .prompt-box p, .test p {
     flex-grow: 1; /* Make the content expand to fill the available space */
     margin: 0;
@@ -48,6 +66,7 @@
     overflow: hidden; /* Prevent scrolling */
 }
 
+/* Styling for the code input section */
 #code {
     height: 100vh;
     width: 100%;

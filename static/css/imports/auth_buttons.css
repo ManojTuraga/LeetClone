@@ -1,5 +1,19 @@
+/*
+Module: auth_buttons.css
+Creation Date: October 22th, 2024
+Author: Manoj Turaga
+Contributors: Clare Channel, Manoj Turaga
+
+Description:
+    This module contains all the stylings for the authentication
+    buttons on the bases page
+
+Sources: W3Schools
+*/
+
 @import url( "globals.css" );
 
+/* Base styling for just the auth-buttons container */
 .auth-buttons 
     {
     display: flex;
@@ -8,12 +22,14 @@
     transition: margin-right var( --base-animation-time );
     }
 
+/* Styling for just the auth-buttons container when collapsed */
 .auth-buttons.collapsed
     {
     margin-right: calc( var( --side-bar-min-size ) + 15px );
     transition: margin-right var( --base-animation-time );
     }
     
+/* Styling that can be applied for the login button */
 .auth-buttons .login-btn 
     {
     background-color: #575757;
@@ -25,11 +41,13 @@
     transition: background-color 0.3s;
     }
     
+/* Styling that can be applied for the login button when the mouse is hovering */
 .auth-buttons .login-btn:hover
     {
     background-color: #ef0303;
     }
     
+/* Styling that can be applied for the signup button */
 .auth-buttons .signup-btn 
     {
     background-color: #575757;
@@ -41,6 +59,7 @@
     transition: background-color 0.3s;
     }
     
+/* Styling that can be applied for the signup button when the mouse is hovering */
 .auth-buttons .signup-btn:hover 
     {
     background-color: #ef0303;

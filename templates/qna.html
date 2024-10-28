@@ -1,10 +1,27 @@
+<!--
+Module: qna.html
+Creation Date: October 26th, 2024
+Author: Clare Channel
+Contributors: Clare Channel, Manoj Turag 
+
+Description:
+    This HTML page is for the QNA section of the application,
+    which allows users to see and answer the questions that they
+    selected
+
+Sources: W3Schools, Flask Documentation:
+-->
+
+<!-- Import the base page -->
 {% extends "imports/base.html" %}
 
+<!-- Add the title of the page and any CSS styling to the base page -->
 {% block head %}
 <title>Code Executor</title>
 <link rel="stylesheet" href="{{ url_for( 'static', filename='css/qna_style.css' ) }}">
 {% endblock %}
 
+<!-- Add the prompt box, tests, and the code editor to the base page -->
 {% block main %}
 <div class="container">
     <div class="prompt-and-test-cases">
@@ -32,6 +49,7 @@
 </div>
 {% endblock %}
 
+<!-- Add the QNA callbacks to the base page -->
 {% block scripts %}
 <script src="{{ url_for( 'static', filename='js/qna_script.js' ) }}"></script>
 {% endblock %}
