@@ -20,17 +20,22 @@ Outputs:
     Web application, result of executed code and database calls
 
 Preconditions:
-    None
+    All the html files indicated must exist
 
 Postconditions:
+    The page will render
 
 Error Conditions:
+    Some HTML files are missing
 
 Side Effects:
+    None
 
 Invariants:
+    None
 
-Known Faults
+Known Faults:
+    Some callbacks are currently not implemented
 
 Sources: W3Schools, Flask Documentation:
 '''
