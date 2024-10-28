@@ -53,6 +53,7 @@ Sources: W3Schools, Flask Documentation:
 from flask import Flask, render_template, request
 
 from modules import questions as q
+from modules import utilities as util
 
 ###############################################################################
 # Global Variables
@@ -132,7 +133,8 @@ def qna():
     return render_template( 'qna.html', 
                             links=list_of_base_pages, 
                             active_page="qna", 
-                            question_info=question_info )
+                            question_info=question_info,
+                            supported_langs=util.SUPPORTED_LANGUAGES )
 
 # THE FOLLOWING SECTION OF CODE IS A TODO
 # WE PROVIDE THIS FUNCTIONS FOR FUTURE USE BUT
