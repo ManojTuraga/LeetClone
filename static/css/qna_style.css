@@ -48,7 +48,7 @@
     overflow: hidden; /* Prevent scrolling */
 }
 
-textarea#code {
+#code {
     height: 100vh;
     width: 100%;
     margin: 0;

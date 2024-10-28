@@ -19,6 +19,18 @@ Inputs:
 Outputs:
     Web application, result of executed code and database calls
 
+Preconditions:
+
+Postconditions:
+
+Error Conditions:
+
+Side Effects:
+
+Invariants
+
+Known Faults
+
 Sources: W3Schools, Flask Documentation
 '''
 
@@ -44,6 +56,9 @@ from modules import questions as q
 # Applying decorators to this obe
 app = Flask( __name__ )
 
+# Create a global instance of the questions
+# object. This will be used ot fetch the
+# the questions from the database
 qs = q.Questions()
 
 # Define a list of html indexes that are
@@ -65,32 +80,72 @@ list_of_base_pages = \
 @app.route('/home')
 @app.route( '/' )
 def home():
-    return render_template( 'home.html', links=list_of_base_pages, active_page="home" )
+    """
+    Function: Home
 
+    Description: This function is the callback for the home page of the app. The
+                 home page is the main page of the application and can be indexed
+                 with either the /home or the / base page
+    """
+    # Render the home.html with the links that the
+    # page should support and indicate that the
+    # home page is the active page.
+    return render_template( 'home.html', 
+                            links=list_of_base_pages, 
+                            active_page="home" )
+
+# This is is callback for visits to the qna
+# page. The Home page can be indexed with the
+# /qna address on the url
 @app.route( '/qna', methods=[ "GET","POST" ] )
 def qna():
+    """
+    Function: QNA
+
+    Description: This function is the callback for the Questions and Answers
+                 page. This page accepts post requests that indicate the code
+                 the was inputted in the editable terminal
+    """
+    # TEMP: Get the question information from the
+    # questions object
     question_info = qs.get_question_info( 1 )
 
+    # Currently, the only way that this block is
+    # triggered is if the user is submitting the
+    # code that they are inputting into the console.
+    # Get the JSON object corresponding to the request
+    # and write the body to a 'test.txt' ile
     if request.method == "POST":
-        data = request.get_data()
-        print("here")
-        file = open( "test.txt", 'wb' )
-        file.write( data )
-        
-    return render_template( 'qna.html', links=list_of_base_pages, active_page="qna", question_info=question_info )
+        data = request.get_json()
+        file = open( "test.txt", 'w' )
+        file.write( data[ "code" ] )
 
+    # Render the qna.html page with a list of links
+    # to different pages and indicate that the qna
+    # page is the active page  
+    return render_template( 'qna.html', 
+                            links=list_of_base_pages, 
+                            active_page="qna", 
+                            question_info=question_info )
+
+# THE FOLLOWING SECTION OF CODE IS A TODO
+# WE PROVIDE THIS FUNCTIONS FOR FUTURE USE BUT
+# THEY ARE NOT CURRENTLY BEING USED OTHER THAN
+# AS PLACEHOLDERS FOR FUTURE IMPLEMENTATIONS
 @app.route( '/questions' )
 def questions():
-    return render_template( 'questions.html', links=list_of_base_pages, active_page="questions" )
+    return render_template( 'questions.html', 
+                            links=list_of_base_pages, 
+                            active_page="questions" )
 
 @app.route( '/pvp' )
 def pvp():
-    return render_template( 'pvp.html', links=list_of_base_pages, active_page="pvp" )
+    return render_template( 'pvp.html', 
+                            links=list_of_base_pages, 
+                            active_page="pvp" )
 
 ###############################################################################
 # Procedures
 ###############################################################################
-
-
 if __name__ == '__main__':
     app.run(debug=True)
