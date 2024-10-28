@@ -20,6 +20,7 @@ Outputs:
     Web application, result of executed code and database calls
 
 Preconditions:
+    None
 
 Postconditions:
 
@@ -27,11 +28,11 @@ Error Conditions:
 
 Side Effects:
 
-Invariants
+Invariants:
 
 Known Faults
 
-Sources: W3Schools, Flask Documentation
+Sources: W3Schools, Flask Documentation:
 '''
 
 # NOTE: We acknowledge that a lot of the knowledge surrounding Flask and Web

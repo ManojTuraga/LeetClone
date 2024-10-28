@@ -1,19 +1,30 @@
-/******************************************************************************
-Imports
-******************************************************************************/
+/*
+Module: base.css
+Creation Date: October 22th, 2024
+Author: Manoj Turaga
+Contributors: Manoj Turaga
+
+Description:
+    This Module contains all the styling required for the base page
+
+Sources: W3Schools
+*/
+
 @import url( "globals.css" );
 @import url( "sidebar.css" );
 @import url( "auth_buttons.css" );
 
-body {
+/* Base Styling for the body */
+body 
+    {
     font-family: Arial, sans-serif;
     background-color: black;
     margin: 0;
     padding: 0;
     display: flex;
-}
+    }
 
-
+/* Base Styling for the header */
 .header 
     {
     height: 50px;
@@ -33,6 +44,7 @@ body {
     transition: margin-left var( --base-animation-time );
     }
 
+/* Styling for the header when collapsed */
 .header.collapsed 
     {
     margin-left: var( --side-bar-min-size );
@@ -40,9 +52,25 @@ body {
     transition: margin-left var( --base-animation-time );
     }
     
+/* Styling for the logo */
 .logo img 
     {
     height: 225px;
     width : 225px;
     margin-top: 50px;
+    }
+
+/* Base styling for the main content section */
+.main-content 
+    {
+    margin-left: 250px;
+    padding: 100px 20px; 
+    flex-grow: 1;
+    transition: margin-left 0.3s;
+    }
+
+/* Styling for the main content section when collapsed */
+.main-content.collapsed 
+    {
+    margin-left: 60px;
     }

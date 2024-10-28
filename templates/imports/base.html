@@ -1,15 +1,36 @@
+<!--
+Module: base.html
+Creation Date: October 26th, 2024
+Author: Manoj Turaga
+Contributors: Manoj Turaga, Clare Channel
+
+Description:
+    This HTML page defines the base page for the entire application.
+    All pages that inherit from this page wil get access to the base
+    styling, as well as the navigation bar to access the other pages
+
+Sources: W3Schools, Flask Documentation:
+-->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Define the initial metadata for this base page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for( 'static', filename='css/home_style.css' ) }}">
+
+        <!-- Import the base styling -->
+        <link rel="stylesheet" href="{{ url_for( 'static', filename='css/imports/base.css' ) }}">
+
+        <!-- Define a block that allows child pages to addd their own styling -->
         {% block head %}
         {% endblock %}
     </head>
     <body>
-        <!-- Sidebar -->
+        <!-- Add a sidebar for the base page -->
         <div class="sidebar" id="sidebar">
+            <!-- For every page in the links, make the link clickable -->
+            <!-- if the page is not the active page -->
             {% for page in links %}
                 {% if page[ 0 ] != active_page %}
                 <a href="{{ page[ 0 ] }}">{{ page[ 1 ] }}</a>
@@ -17,9 +38,11 @@
                 <a id="activepage">{{ page[ 1 ] }}</a>
                 {% endif %}
             {% endfor %}
+            <!-- Add a toggle button -->
             <button class="toggle-btn" id="toggle-btn">&#x25C0;</button>
         </div>
 
+        <!-- Add the header, which includes a logo and a set of login/auth buttons -->
         <header class="header">
             <div class="logo">
                 <img src="{{ url_for( 'static', filename='images/logo.png' ) }}" alt="Website Logo">
@@ -30,14 +53,14 @@
             </div>
         </header>
 
-        <!-- Main -->
+        <!-- Define a block for the main content -->
         <div class="main-content" id="main-content">
         {% block main %}
         <p>TODO</p>
         {% endblock %}
         </div>
 
-        <!-- JavaScript -->
+        <!-- Import the base callbacks and define a block for additional callbacks -->
         <script src="{{ url_for( 'static', filename='js/nav_bar_script.js' ) }}"></script>
         {% block scripts %}
         {% endblock %}
