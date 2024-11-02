@@ -42,10 +42,10 @@ Sources: W3Schools, Flask Documentation:
         <div class="select-and-submit">
         <button id="runButton">Run Code</button>
         <div class="dropdown">
-            <button class="dropdown-button">python</button>
+            <button class="dropdown-button" id="lang-button">python</button>
             <div class="dropdown-content">
                 {% for lang in supported_langs %}
-                <p>{{ lang }}</p>
+                <p onclick="lang_vals_on_click( '{{ lang }}' )" >{{ lang }}</p>
                 {% endfor %}
             </div>
           </div>

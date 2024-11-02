@@ -46,6 +46,9 @@ document.getElementById('runButton').addEventListener('click', () => {
   **************************************/
   const code = document.getElementById('code').value;
 
+  const lang_button = document.getElementById( 'lang-button' );
+  const lang = lang_button.textContent || lang_button.innerText;
+
   /**************************************
   Send the information to the server for
   processing
@@ -55,6 +58,13 @@ document.getElementById('runButton').addEventListener('click', () => {
       headers: {
           "Content-Type": "application/json"
       },
-      body: JSON.stringify({ code: code })
+      body: JSON.stringify({ code: code, lang: lang })
   });
 });
+
+function lang_vals_on_click( lang_str )
+    {
+        const lang_button = document.getElementById( 'lang-button' );
+        lang_button.textContent = lang_str;
+        lang_button.innerText = lang_str;
+    }
