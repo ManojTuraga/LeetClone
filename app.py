@@ -46,11 +46,13 @@ Sources: W3Schools, Flask Documentation:
 ###############################################################################
 # Imports
 ###############################################################################
+import pathlib
+import os
 
 # From the Flask module, import the Flask app
 # class, the html template renderer, and the
 # request object
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect
 
 from modules import questions as q
 from modules import utilities as util
@@ -60,9 +62,14 @@ from modules import backend
 # Global Variables
 ###############################################################################
 
+ID = "id"
+
+active_users = []
+
 # Create our global instance of the flask app.
 # Applying decorators to this obe
 app = Flask( __name__ )
+app.secret_key = "test"
 
 # Create a global instance of the questions
 # object. This will be used ot fetch the
@@ -100,6 +107,10 @@ def home():
     # Render the home.html with the links that the
     # page should support and indicate that the
     # home page is the active page.
+    if need_id_refresh():
+        session[ ID ] = next( util.gensym() )
+        os.makedirs( str( util.BUILD_DIR ) + f"/{ session[ ID ] }" )
+
     return render_template( 'home.html', 
                             links=list_of_base_pages, 
                             active_page="home" )
@@ -116,6 +127,9 @@ def qna():
                  page. This page accepts post requests that indicate the code
                  the was inputted in the editable terminal
     """
+    if need_id_refresh():
+        return redirect( "/home" )
+    
     # TEMP: Get the question information from the
     # questions object
     question_info = qs.get_question_info( 1 )
@@ -127,8 +141,9 @@ def qna():
     # and write the body to a 'test.txt' ile
     if request.method == "POST":
         data = request.get_json()
-        file = open( "test.txt", 'w' )
-        file.write( data[ "code" ] )
+        write_to_build( data[ "code" ], 
+                        data[ "lang" ],
+                        "test" )
 
     # Render the qna.html page with a list of links
     # to different pages and indicate that the qna
@@ -158,5 +173,15 @@ def pvp():
 ###############################################################################
 # Procedures
 ###############################################################################
+def write_to_build( code, lang, file_name="exec" ):
+    file_path = pathlib.Path( str( util.BUILD_DIR ) + f"/{ file_name }{ util.LANGUAGE_TO_EXECUTABLES[ lang ][ util.FILE_EXT ] }" )
+    out_file = open( file_path, 'w' )
+    out_file.write( code )
+    out_file.close()
+
+def need_id_refresh():
+    return ID not in session.keys() or session[ ID ] in active_users
+
+
 if __name__ == '__main__':
     app.run(debug=True)

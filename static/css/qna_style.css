@@ -104,7 +104,6 @@ and using ChatGPT*/
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    z-index: 1;
     }
 
 /* Styling for the dropdown content values - W3Schools */ 
