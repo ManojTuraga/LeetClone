@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    padding: 10px;
+}
+
+.prompt-box {
+    width: 30%;
+    padding: 20px;
+    background: black;
+    box-shadow: 0 0 10px black;
+}
+
+.prompt-box h2 {
+    color: white;
+    margin-top: 0;
+}
+
+.prompt-box p {
+    height: 80%;
+    margin: 0;
+    padding: 10px;
+    color: white;
+    border: 1px solid rgba(255, 0, 0, 0.283);
+    border-radius: 5px;
+    background: rgb(33, 31, 31);
+    overflow: auto;
+}
+
+.editor-output {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.editor {
+    flex: 2;
+    padding: 10px;
+    background: black;
+    box-shadow: 0 0 10px black;
+}
+
+.editor h2 {
+    margin-top: 1;
+    color: white;
+}
+
+.editor textarea {
+    width: 95%;
+    height: 80%;
+    resize: none;
+    background-color: rgb(33, 31, 31);
+    border: 1px solid rgba(255, 0, 0, 0.283);
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+}
+
+.output {
+    flex: 1;
+    padding: 20px;
+    background: rgb(33, 31, 31);
+    border: 1px solid rgba(255, 0, 0, 0.283);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.283);
+    overflow-y: auto;
+    color: white;
+    margin-bottom: 50px;
+    margin-right: 10px;
+}
+
+.output h2 {
+    color: white;
+    margin-top: 0;
+}
+
+#runButton {
+    padding: 10px 20px;
+    background-color: rgba(228, 40, 40, 0.922);
+    color: black;
+    border: thin double;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#runButton:hover {
+    background-color: rgb(0, 255, 149);
+}
