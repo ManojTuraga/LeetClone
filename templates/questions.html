@@ -1,1 +1,18 @@
 {% extends "imports/base.html" %}
+
+{% block head %}
+<title>Questions</title>
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/questions.css' ) }}">
+{% endblock %}
+
+{% block main %}
+<div class="content">
+    <div class="questions-container">
+        <ul id="questions-list"></ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for( 'static', filename='js/question_script.js' ) }}"></script>
+{% endblock %}
