@@ -1,29 +1,34 @@
 {
 "questions": [
     {
+    "qid" : 1,
     "prompt": {"text": "Given a class that contains a password string and that has a function to verify a match, make code that will always make the check function always return true with a randomly generated secret password string. No modifying the class or its functions in any way."},
-    "test cases": {"1":"password is abc", "2":"password is dfgujbkzbvkjbwef", "3":"password is random set of letters of length 50"},
-    "starter code":{"code": "#You don't get to see the functions, but access the password through a password.check([input here]). Do this at least once by the end of the code, and never fail at it."}
+    "test_cases": {"1":"password is abc", "2":"password is dfgujbkzbvkjbwef", "3":"password is random set of letters of length 50"},
+    "starter_code":{"code": "#You don't get to see the functions, but access the password through a password.check([input here]). Do this at least once by the end of the code, and never fail at it."}
     },
     {
+    "qid" : 2,
     "prompt": {"text": "There is a list of random ints, that needs sorted. A special function must be used to swap elements within it, and nothing else is allowed to be used for element manipulation. When this swap is done, it has a 25% chance to also swap 2 random elements in the list."},
-    "test cases": {"1":"input_list is all numbers 1-10 randomly jumbled.", "2":"input_list is 5 of each of 1, 4, and 7. In reverse order.", "3": "input_list is 8 random numbers 0-999 randomly jumbled."},
-    "starter code":{"code": "#It is auto generated. Use []s to access it. len() works. use swap(index, index) to swap to positions. The list to sort is input_list. Have it sorted by the end of the code."}
+    "test_cases": {"1":"input_list is all numbers 1-10 randomly jumbled.", "2":"input_list is 5 of each of 1, 4, and 7. In reverse order.", "3": "input_list is 8 random numbers 0-999 randomly jumbled."},
+    "starter_code":{"code": "#It is auto generated. Use []s to access it. len() works. use swap(index, index) to swap to positions. The list to sort is input_list. Have it sorted by the end of the code."}
     },
     {
+    "qid" : 3,
     "prompt": {"text": "Create a function that sorts a dictionary by the length of the string of the value."},
-    "test cases": {"1":"in_dict is {'w':'w','':'df','f':'esfdef','d':'vdfvfd','w':'dfvgerg'}", "2":"in_dict is {1:'w', 2:'3evsrf sdf', '4':'jhbjb'}", "3":"in_dict is random letters in strings of length 1-20 onr each side of key:value, or langth 10-30."},
-    "starter code":{"code": "def sort_by_val_len(in_dict): \n\t#your code here\n\tpass"}
+    "test_cases": {"1":"in_dict is {'w':'w','':'df','f':'esfdef','d':'vdfvfd','w':'dfvgerg'}", "2":"in_dict is {1:'w', 2:'3evsrf sdf', '4':'jhbjb'}", "3":"in_dict is random letters in strings of length 1-20 onr each side of key:value, or langth 10-30."},
+    "starter_code":{"code": "def sort_by_val_len(in_dict): \n\t#your code here\n\tpass"}
     },
     {
+    "qid" : 4,
     "prompt": {"text": "Given n, print the nth prime number"},
-    "test cases": {"1":"n = 1 ==> 2", "2":"n = 2 ==> 3", "3":"n = 10 ==> 29", "4":"n = 1000 ==> 7919"},
-    "starter code":{"code": ""}
+    "test_cases": {"1":"n = 1 ==> 2", "2":"n = 2 ==> 3", "3":"n = 10 ==> 29", "4":"n = 1000 ==> 7919"},
+    "starter_code":{"code": ""}
     },
     {
+    "qid" : 5,
     "prompt": {"text": "Create a function that adds two numbers"},
-    "test cases": {"1":"adder(1, 1) => 2", "2":"adder(-1, 10) => 9"},
-    "starter code":{"code": ""}
+    "test_cases": {"1":"adder(1, 1) => 2", "2":"adder(-1, 10) => 9"},
+    "starter_code":{"code": ""}
     }
     ]
 }

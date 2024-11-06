@@ -54,6 +54,7 @@ from flask import Flask, render_template, request
 
 from modules import questions as q
 from modules import utilities as util
+from modules import backend
 
 ###############################################################################
 # Global Variables
@@ -75,6 +76,8 @@ list_of_base_pages = \
       ("qna", "Problem Solver" ), 
       ( "questions", "Questions" ), 
       ( "pvp", "Player vs. Player" ) ]
+
+db_conn, db_cursor = backend.db_connection()
 
 ###############################################################################
 # Callbacks

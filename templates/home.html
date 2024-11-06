@@ -1,1 +1,23 @@
 {% extends "imports/base.html" %}
+
+{% block head %}
+<title>LeetClone</title>
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/home_style.css' ) }}">
+{% endblock %}
+
+{% block main %}
+<div class="content">
+    <button id="start-btn" class="start-btn" style="display: none;">Start</button>
+    <div class="video-container">
+        <video id="intro-gif" autoplay muted playsinline>
+            <source src="{{url_for('static', filename='images/giff.mp4')}}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for( 'static', filename='js/home_script.js' ) }}"></script>
+{% endblock %}
+

@@ -1,0 +1,63 @@
+@import url("imports/base.css");
+
+/* Set a black background for the page */
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.questions-container {
+    padding: 20px;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Grid layout */
+    gap: 15px; /* Spacing between question boxes */
+}
+
+#questions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.question-item {
+    position: relative;
+    background-color: #1a1a1a; /* Dark box color for each question */
+    padding: 15px;
+    border: 1px solid rgba(255, 0, 0, 0.282); /* Red border around each question box */
+    border-radius: 8px;
+    text-align: left; /* Align text to the left */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-bottom: 15px; /* Space between question items */
+}
+
+.question-item:hover {
+    color: red;
+    background-color: #333333; /* Slightly lighter on hover */
+}
+
+.question-popup {
+    display: none;
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 100%; /* Position it to the right of the question */
+    transform: translateY(-50%); /* Adjust vertical alignment */
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    width: 250px;
+    z-index: 1000;
+    white-space: pre-wrap;
+    border: 1px solid red;
+    margin-left: 10px; /* Space between question and popup */
+}
+
+.question-item:hover .question-popup {
+    display: block; /* Show pop-up on hover */
+}
+
