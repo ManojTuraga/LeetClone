@@ -34,6 +34,8 @@ Invariants:
 Known Faults
     None
 '''
+from modules import utilities as util
+
 # NOTE: AT THIS POINT, THE FOLLOWING CLASS HAS WHAT
 # WE CONSIDER TO BE THE FUNCTIONS THAT MIGHT BE USED
 # IN IT'S IMPLEMENTATION. IN NO WAY ARE THEY USED ATM
@@ -41,7 +43,11 @@ class DRE:
     def __init__( self ):
         pass
 
-    def execute_code( self ):
+    def execute_code( self, code, lang ):
+        if lang == util.PYTHON_LANG:
+            util.execute_python( code )
+        elif lang == util.C_LANG:
+            util.execute_c( code )
         pass
 
     def _compile_code( self ):
