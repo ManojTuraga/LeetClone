@@ -17,6 +17,7 @@ def create_tables(db_cursor):
         CREATE TABLE IF NOT EXISTS question 
         (
             question_id INT PRIMARY KEY,
+            title TEXT NOT NULL,
             optimal_tc VARCHAR(30) NOT NULL,
             prompt TEXT NOT NULL  
         );
@@ -43,7 +44,7 @@ def create_tables(db_cursor):
 
     db_cursor.execute(
         """
-        CREATE TABLE IF NOT EXISTS starter_code 
+        CREATE TABLE IF NOT EXISTS code 
         (   
             question_id INT NOT NULL,
             code_id VARCHAR(30) NOT NULL,
@@ -69,13 +70,14 @@ def populate_tables(db_cursor):
     for question in questions: 
         prompt = question["prompt"]["text"]
         question_id = question["qid"]
+        title = question[ "prompt" ][ "title" ]
         
         db_cursor.execute(
             """
-            INSERT INTO question (question_id, optimal_tc, prompt) 
-            VALUES (%s, %s, %s);
+            INSERT INTO question (question_id, title, optimal_tc, prompt) 
+            VALUES (%s, %s, %s, %s);
             """,
-            (question_id, "O(1)", prompt)
+            (question_id, title, "O(1)", prompt)
         )
         
         test_cases = question["test_cases"]
@@ -96,7 +98,7 @@ def populate_tables(db_cursor):
             context_code = codes[ "context_code" ]
             db_cursor.execute(
                 """
-                INSERT INTO starter_code (question_id, code_id, starter_code, context_code) 
+                INSERT INTO code (question_id, code_id, starter_code, context_code) 
                 VALUES (%s, %s, %s, %s);
                 """,
                 (question_id, lang, starter_code, context_code)

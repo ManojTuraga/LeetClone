@@ -64,7 +64,7 @@ document.getElementById('runButton').addEventListener('click', () => {
         body: JSON.stringify({ code: code, lang: lang, question_id: q_id, type: "code_submit" })
     });
     alert( "Code Submittied, Click to see results!" );
-  location.reload();
+    location.reload();
 });
 
 function lang_vals_on_click( lang_str )

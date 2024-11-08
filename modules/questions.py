@@ -58,7 +58,7 @@ class Questions:
             test_cases_new.append( input + " => " + output )
 
 
-        query = f"SELECT starter_code FROM starter_code WHERE question_id={question_id} AND code_id='{lang}'"
+        query = f"SELECT starter_code FROM code WHERE question_id={question_id} AND code_id='{lang}'"
         starter_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
         return { "prompt": prompt, "test_cases": test_cases_new, "starter_code": starter_code }
@@ -73,13 +73,13 @@ class Questions:
             test_cases_new.append( { "input": input, "output": output } )
 
 
-        query = f"SELECT context_code FROM starter_code WHERE question_id={question_id} AND code_id='{lang}'"
+        query = f"SELECT context_code FROM code WHERE question_id={question_id} AND code_id='{lang}'"
         context_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
         return { "test_cases": test_cases_new, "context_code": context_code }
 
     def get_all_questions_for_popup( self ):
-        query = f"SELECT question_id, prompt FROM question ORDER BY question_id"
+        query = f"SELECT question_id, title FROM question ORDER BY question_id"
         questions = backend.execute_query( self._cursor, query )
 
         return questions

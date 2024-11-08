@@ -10,7 +10,7 @@
     <div class="questions-container">
         <ul id="questions-list">
             {% for question in all_questions %}
-            <li>{{ question[ 1 ] }}</li>
+            <li onclick="gotoQuestion( '{{ question[ 0 ] }}' )">{{ question[ 1 ] }}</li>
             {% endfor %}
         </ul>
     </div>
