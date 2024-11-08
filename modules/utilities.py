@@ -77,6 +77,7 @@ def execute_code( code, context, lang ):
 
     if not successful_compile:
         __result.extend( [ False for i in range( len( test_cases ) ) ] )
+        subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] )
         return __result
 
     else:
@@ -95,12 +96,8 @@ def execute_code( code, context, lang ):
             except subprocess.CalledProcessError:
                 __result.append( False )
 
-        if successful_compile:
-            if lang == PYTHON_LANG:
-                subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }.{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] )
-
-            if lang == C_LANG:
-                subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }" ] )
+        subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] )
+        subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }" ] )
     
     return __result
 
