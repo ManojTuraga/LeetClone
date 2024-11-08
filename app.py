@@ -199,9 +199,11 @@ def qna():
 # AS PLACEHOLDERS FOR FUTURE IMPLEMENTATIONS
 @app.route( '/questions' )
 def questions():
+    all_questions = qs.get_all_questions_for_popup()
     return render_template( 'questions.html', 
                             links=list_of_base_pages, 
-                            active_page="questions" )
+                            active_page="questions",
+                            all_questions=all_questions )
 
 @app.route( '/pvp' )
 def pvp():
@@ -212,12 +214,6 @@ def pvp():
 ###############################################################################
 # Procedures
 ###############################################################################
-def execute_code( code, lang, file_name="exec" ):
-    file_path = pathlib.Path( str( util.BUILD_DIR ) + f"/{ file_name }{ util.LANGUAGE_MAP[ lang ][ util.FILE_EXT ] }" )
-    out_file = open( file_path, 'w' )
-    out_file.write( code )
-    out_file.close()
-
 
 if __name__ == '__main__':
     app.run(debug=True)
