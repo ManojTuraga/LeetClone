@@ -8,6 +8,7 @@ function gotoQuestion( question_id )
         },
         body: JSON.stringify({ question_id: question_id })
     });
-    window.location = "/qna"
+    alert( "Question Selected, click to continue!" );
+    window.location = "/qna";
     }
 
