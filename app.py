@@ -83,7 +83,7 @@ exec = dre.DRE( db_cursor )
 # directly accessed from the page
 list_of_base_pages = \
     [ ("home", "Home Page"), 
-      ("qna", "Problem Solver" ), 
+      #("qna", "Problem Solver" ), 
       ( "questions", "Questions" ), 
       ( "pvp", "Player vs. Player" ) ]
 
@@ -133,7 +133,8 @@ def qna():
         question_info = session[ "question_info" ]
 
     else:
-        session[ "question_info" ] = dict()
+        session[ "question_info" ] = qs.get_question_info_for_client( )
+        question_info = session[ "question_info" ]
 
     if "test_results" in session:
         test_results = session[ "test_results" ]
