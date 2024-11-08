@@ -64,9 +64,6 @@ class Questions:
         return { "prompt": prompt, "test_cases": test_cases_new, "starter_code": starter_code }
     
     def get_question_info_for_server( self, question_id = 1, lang = "python" ):
-        query = f"SELECT prompt FROM question WHERE question_id={question_id}"
-        prompt = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
-
         query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
         test_cases = backend.execute_query( self._cursor, query )
         test_cases_new = []
@@ -80,3 +77,9 @@ class Questions:
         context_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
         return { "test_cases": test_cases_new, "context_code": context_code }
+
+    def get_all_questions_for_popup( self ):
+        query = f"SELECT question_id, prompt FROM question ORDERBY question_id"
+        questions = backend.execute_query( self._cursor, query )
+
+        print( questions )

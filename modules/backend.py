@@ -3,8 +3,8 @@ import os
 import json
 
 DATABASE = "leetclone_db"
-USER = "postgres"
-PASSWORD = "postgres"
+USER = os.environ.get("LEETCLONE_USERNAME")
+PASSWORD = os.environ.get("LEETCLONE_PASSWORD")
 HOST = "localhost"
 PORT = "5432"
 
