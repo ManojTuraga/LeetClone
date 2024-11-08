@@ -129,13 +129,6 @@ def qna():
     question_info = dict()
     test_results = []
 
-    if "question_info" in session:
-        question_info = session[ "question_info" ]
-
-    else:
-        session[ "question_info" ] = qs.get_question_info_for_client(  )
-        question_info = session[ "question_info" ]
-
     if "test_results" in session:
         test_results = session[ "test_results" ]
 
@@ -147,6 +140,13 @@ def qna():
 
     if "question_id" not in session:
         session[ "question_id" ] = 1
+
+    if "question_info" in session:
+        question_info = session[ "question_info" ]
+
+    else:
+        session[ "question_info" ] = qs.get_question_info_for_client( session[ "question_id" ], session[ "lang" ] )
+        question_info = session[ "question_info" ]
 
     # Currently, the only way that this block is
     # triggered is if the user is submitting the
@@ -164,6 +164,7 @@ def qna():
                                               data[ "lang" ] )
             
             session[ "question_info" ][ "starter_code" ] = data[ "code" ]
+            session[ "question_id" ] = data[ "question_id" ]
 
         session[ "lang" ] = data[ "lang" ]
         session[ "test_results" ] = test_results
@@ -191,7 +192,7 @@ def qna():
                             active_page="qna", 
                             question_info=question_info,
                             supported_langs=util.SUPPORTED_LANGUAGES,
-                            question_id=1,
+                            question_id=session[ "question_id" ],
                             test_results=test_results,
                             num_of_tests=len(question_info[ "test_cases" ]),
                             lang=session[ "lang" ] )
