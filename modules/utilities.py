@@ -14,7 +14,8 @@ Description:
 ###############################################################################
 import pathlib
 import subprocess
-import itertools
+import random
+import string
 
 
 ###############################################################################
@@ -36,7 +37,7 @@ FILE_EXT = "file_extension"
 SUPPORTED_LANGUAGES = \
     [ PYTHON_LANG, C_LANG ]
 
-LANGUAGE_TO_EXECUTABLES = \
+LANGUAGE_MAP = \
     { 
     PYTHON_LANG: { COMPILATION_EXEC: "", RUNNABLE_EXEC: "python3", FILE_EXT: ".py" },
     C_LANG:      { COMPILATION_EXEC: "gcc", RUNNABLE_EXEC: "", FILE_EXT: ".c" }
@@ -45,50 +46,64 @@ LANGUAGE_TO_EXECUTABLES = \
 ###############################################################################
 # Procedures
 ###############################################################################
-def execute_python( code, test_inputs = [ [ 1, 2 ], [ 3, 4 ] ], expected_test_outputs = [ 2, 8 ] ):
-    __result = []
-    for inputs, output in zip( test_inputs, expected_test_outputs ):
-        code += f"\n__result.append( adder( { inputs[ 0 ] }, { inputs[ 1 ] } ) == { output } )"
-
-    exec( code )
-    print( __result )
-
-def _compile_c( code ):
-    code_file = open( pathlib.Path( str( BUILD_DIR ) + "/test.c" ), "w" )
-    code_file.write( "#include <stdlib.h>\n" )
+def _compile_code( filename, code, context_code, lang ):
+    code_file = open( pathlib.Path( str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ), "w" )
+    
+    code_file.write( context_code )
+    code_file.write( '\n' )
     code_file.write( code )
-    code_file.write( "\nint main( int argc, char * argv[] ) {\n" )
-    code_file.write( "\tif( adder( atoi( argv[ 1 ] ), atoi( argv[ 2 ] ) ) == atoi( argv[ 3 ] ) ) {return 0;} else{return 1;}\n" )
-    code_file.write( "}" )
+    code_file.write( '\n' )
+
+    if( lang == PYTHON_LANG ):
+        code_file.write( "main()" )
+    
     code_file.close()
-    try:
-        subprocess.check_output( [ "gcc", "build/test.c", "-o", "build/test" ] )
-        return True
-
-    except subprocess.CalledProcessError:
-        return False
-
-def execute_c( code, test_inputs = [ [ 1, 2 ], [ 3, 4 ] ], expected_test_outputs = [ 2, 8 ] ):
-    executable = "build/test"
-    success = _compile_c( code )
-
-    if not success:
-        print( "Error" )
-        return
-    __result = []
-
-    for inputs, output in zip( test_inputs, expected_test_outputs ):
+    
+    if( lang == C_LANG ):
         try:
-            subprocess.check_output( [ f"./{ executable }", str( inputs[ 0 ] ), str( inputs[ 1 ] ), str( output ) ] )
-            __result.append( False )
+            subprocess.check_output( [ "gcc", str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }", "-o", str( BUILD_DIR ) + f"/{ filename }" ] )
 
         except subprocess.CalledProcessError:
-            __result.append( True )
-    
-    print( __result )
+            return False
+        
+    return True
 
-def gensym(prefix="user"):
-    counter = itertools.count()
-    while True:
-        yield f"{prefix}{next(counter)}"
+def execute_code( code, context, lang ):
+    filename = random_file_name()
+
+    successful_compile = _compile_code( filename, code, context[ "context_code" ], lang )
+    __result = []
+    test_cases = context[ "test_cases" ]
+
+    if not successful_compile:
+        __result.extend( [ False for i in range( len( test_cases ) ) ] )
+        return __result
+
+    else:
+        for test in test_cases:
+            test_inputs = test[ "input" ]
+            test_output = test[ "output" ]
+            try:
+                if lang == PYTHON_LANG:
+                    subprocess.check_output( [ f"python3" ] + [ str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] + test_inputs.split( ' ' ) + test_output.split( ' ' ) )
+
+                if lang == C_LANG:
+                    subprocess.check_output( [ "./" + str( BUILD_DIR ) + f"/{ filename }" ] + test_inputs.split( ' ' ) + test_output.split( ' ' ) )
+
+                __result.append( True )
+
+            except subprocess.CalledProcessError:
+                __result.append( False )
+
+        if successful_compile:
+            if lang == PYTHON_LANG:
+                subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }.{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] )
+
+            if lang == C_LANG:
+                subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }" ] )
+    
+    return __result
+
+def random_file_name():
+    return ''.join( random.choices( string.ascii_letters, k=30 ) )
 

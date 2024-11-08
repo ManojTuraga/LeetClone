@@ -45,21 +45,26 @@ document.getElementById('runButton').addEventListener('click', () => {
   Get the code that was in the text area
   **************************************/
   const code = document.getElementById('code').value;
-
+  
   const lang_button = document.getElementById( 'lang-button' );
+  const prompt = document.getElementById( 'promptBox' );
+  const q_id = prompt.getAttribute( "value" );
+  
   const lang = lang_button.textContent || lang_button.innerText;
-
+  
   /**************************************
-  Send the information to the server for
-  processing
-  **************************************/
-  fetch("/qna", {
+   Send the information to the server for
+   processing
+   **************************************/
+  response = fetch("/qna", {
       method: "POST",
       headers: {
           "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ code: code, lang: lang })
-  });
+        },
+        body: JSON.stringify({ code: code, lang: lang, question_id: q_id, type: "code_submit" })
+    });
+    alert( "Code Submittied, Click to see results!" );
+  location.reload();
 });
 
 function lang_vals_on_click( lang_str )
@@ -67,4 +72,23 @@ function lang_vals_on_click( lang_str )
         const lang_button = document.getElementById( 'lang-button' );
         lang_button.textContent = lang_str;
         lang_button.innerText = lang_str;
+
+        
+        const prompt = document.getElementById( 'promptBox' );
+        const q_id = prompt.getAttribute( "value" );
+        
+        fetch("/qna", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ lang: lang_str, question_id: q_id, type: "lang_switch" })
+        });
+        
+        alert( "Language Changed, Click to Update!" );
+        location.reload();
     }
+
+window.onload = () => {
+    document.getElementById('code').value = document.getElementById('code').defaultValue;
+}

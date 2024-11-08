@@ -35,20 +35,16 @@ Known Faults
     None
 '''
 from modules import utilities as util
+from modules import questions as q
 
 # NOTE: AT THIS POINT, THE FOLLOWING CLASS HAS WHAT
 # WE CONSIDER TO BE THE FUNCTIONS THAT MIGHT BE USED
 # IN IT'S IMPLEMENTATION. IN NO WAY ARE THEY USED ATM
 class DRE:
-    def __init__( self ):
-        pass
+    def __init__( self, cursor ):
+        self._questions = q.Questions( cursor )
 
-    def execute_code( self, code, lang ):
-        if lang == util.PYTHON_LANG:
-            util.execute_python( code )
-        elif lang == util.C_LANG:
-            util.execute_c( code )
-        pass
-
-    def _compile_code( self ):
-        pass
+    def execute_code( self, code, question_id, lang ):
+        
+        context = self._questions.get_question_info_for_server( question_id, lang )
+        return util.execute_code( code, context, lang )

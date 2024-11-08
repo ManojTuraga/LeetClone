@@ -25,15 +25,19 @@ Sources: W3Schools, Flask Documentation:
 {% block main %}
 <div class="container">
     <div class="prompt-and-test-cases">
-        <div class="prompt-box">
+        <div class="prompt-box" id="promptBox" value="{{ question_id }}">
             <h2>Prompt</h2>
             <p id="promptText">{{ question_info[ "prompt" ] }}</p>
         </div>
         <div class="test">
             <h2>Test Cases</h2>
             <p id="test-cases">
-                {% for case in question_info[ "tests" ] %}
-                {{ case }} <br>
+                {% for i in range( num_of_tests ) %}
+                    {% if test_results[ i ] %}
+                        <span style="color:green;">{{ question_info[ "test_cases" ][ i ] }}</span> <br>
+                    {% else %}
+                        <span style="color:red;">{{ question_info[ "test_cases" ][ i ] }}</span> <br>
+                    {% endif %}
                 {% endfor %}
             </p>
         </div>
@@ -42,7 +46,7 @@ Sources: W3Schools, Flask Documentation:
         <div class="select-and-submit">
         <button id="runButton">Run Code</button>
         <div class="dropdown">
-            <button class="dropdown-button" id="lang-button">python</button>
+            <button class="dropdown-button" id="lang-button">{{ lang }}</button>
             <div class="dropdown-content">
                 {% for lang in supported_langs %}
                 <p onclick="lang_vals_on_click( '{{ lang }}' )" >{{ lang }}</p>
@@ -51,7 +55,7 @@ Sources: W3Schools, Flask Documentation:
           </div>
         </div>
         <div class="editor">
-            <textarea id="code" placeholder="Write your code here..."></textarea>
+            <textarea id="code" placeholder="Write your code here..." value="{{ question_info[ 'starter_code' ] }}" >{{ question_info[ "starter_code" ] }}</textarea>
         </div>        
     </div>
 </div>
