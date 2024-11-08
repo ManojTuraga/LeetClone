@@ -39,12 +39,44 @@ Known Faults
 # IN IT'S IMPLEMENTATION. IN NO WAY IS THIS THE FINAL
 # IMPLEMENTATION
 
+from modules import backend
+
 class Questions:
-    def __init__( self ):
-        self._questions = \
-            {
-            1: { "prompt": "Create a function that add two numbers", "tests":[ "adder(1, 1) => 2", "adder(3, 4) => 7", "adder(-2, -5) => -7" ] }
-            }
+    def __init__( self, db_cursor ):
+        self._cursor = db_cursor
     
-    def get_question_info( self, question_id ):
-        return self._questions[ 1 ]
+    def get_question_info_for_client( self, question_id = 1, lang = "python" ):
+        query = f"SELECT prompt FROM question WHERE question_id={question_id}"
+        prompt = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
+
+        query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
+        test_cases = backend.execute_query( self._cursor, query )
+        test_cases_new = []
+        for case in test_cases:
+            input = case[ 0 ].replace( ' ', ', ' )
+            output = case[ 1 ]
+            test_cases_new.append( input + " => " + output )
+
+
+        query = f"SELECT starter_code FROM starter_code WHERE question_id={question_id} AND code_id='{lang}'"
+        starter_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
+
+        return { "prompt": prompt, "test_cases": test_cases_new, "starter_code": starter_code }
+    
+    def get_question_info_for_server( self, question_id = 1, lang = "python" ):
+        query = f"SELECT prompt FROM question WHERE question_id={question_id}"
+        prompt = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
+
+        query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
+        test_cases = backend.execute_query( self._cursor, query )
+        test_cases_new = []
+        for case in test_cases:
+            input = case[ 0 ]
+            output = case[ 1 ]
+            test_cases_new.append( { "input": input, "output": output } )
+
+
+        query = f"SELECT context_code FROM starter_code WHERE question_id={question_id} AND code_id='{lang}'"
+        context_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
+
+        return { "test_cases": test_cases_new, "context_code": context_code }

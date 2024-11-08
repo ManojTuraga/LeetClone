@@ -52,7 +52,7 @@ import os
 # From the Flask module, import the Flask app
 # class, the html template renderer, and the
 # request object
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session, url_for
 
 from modules import questions as q
 from modules import utilities as util
@@ -75,8 +75,9 @@ app.secret_key = "test"
 # Create a global instance of the questions
 # object. This will be used ot fetch the
 # the questions from the database
-qs = q.Questions()
-exec = dre.DRE() 
+db_conn, db_cursor = backend.db_connection()
+qs = q.Questions( db_cursor )
+exec = dre.DRE( db_cursor ) 
 
 # Define a list of html indexes that are
 # directly accessed from the page
@@ -86,7 +87,6 @@ list_of_base_pages = \
       ( "questions", "Questions" ), 
       ( "pvp", "Player vs. Player" ) ]
 
-db_conn, db_cursor = backend.db_connection()
 
 ###############################################################################
 # Callbacks
@@ -125,29 +125,72 @@ def qna():
                  page. This page accepts post requests that indicate the code
                  the was inputted in the editable terminal
     """
-    
-    # TEMP: Get the question information from the
-    # questions object
-    question_info = qs.get_question_info( 1 )
+
+    question_info = dict()
+    test_results = []
+
+    if "question_info" in session:
+        question_info = session[ "question_info" ]
+
+    else:
+        session[ "question_info" ] = dict()
+
+    if "test_results" in session:
+        test_results = session[ "test_results" ]
+
+    else:
+        test_results = []
+
+    if "lang" not in session:
+        session[ "lang" ] = util.PYTHON_LANG
 
     # Currently, the only way that this block is
     # triggered is if the user is submitting the
     # code that they are inputting into the console.
     # Get the JSON object corresponding to the request
-    # and write the body to a 'test.txt' ile
+    # and write the body to a 'test.txt' file
     if request.method == "POST":
         data = request.get_json()
-        exec.execute_code( data[ "code" ], 
-                           data[ "lang" ] )
+        question_info = qs.get_question_info_for_client( data[ "question_id" ], data[ "lang" ] )
+        session[ "question_info" ] = question_info
+        
+        if data[ "type" ] == "code_submit":
+            test_results = exec.execute_code( data[ "code" ],
+                                              data[ "question_id" ],
+                                              data[ "lang" ] )
+            
+            session[ "question_info" ][ "starter_code" ] = data[ "code" ]
+
+        session[ "lang" ] = data[ "lang" ]
+        session[ "test_results" ] = test_results
+        
+        if data[ "type" ] == "lang_switch":
+            session[ "test_results" ] = []
+        
+            
+        return redirect( url_for( "qna" ) )
+            
+    else:
+        if "test_results" not in session:
+            try:
+                test_results = [ False for i in range( len( question_info[ "test_cases" ] ) ) ]
+            except:
+                test_results = []
 
     # Render the qna.html page with a list of links
     # to different pages and indicate that the qna
-    # page is the active page  
+    # page is the active page 
+    session[ "question_info" ] = question_info
+    session[ "test_results" ] = test_results
     return render_template( 'qna.html', 
                             links=list_of_base_pages, 
                             active_page="qna", 
                             question_info=question_info,
-                            supported_langs=util.SUPPORTED_LANGUAGES )
+                            supported_langs=util.SUPPORTED_LANGUAGES,
+                            question_id=1,
+                            test_results=test_results,
+                            num_of_tests=len(question_info[ "test_cases" ]),
+                            lang=session[ "lang" ] )
 
 # THE FOLLOWING SECTION OF CODE IS A TODO
 # WE PROVIDE THIS FUNCTIONS FOR FUTURE USE BUT
@@ -169,7 +212,7 @@ def pvp():
 # Procedures
 ###############################################################################
 def execute_code( code, lang, file_name="exec" ):
-    file_path = pathlib.Path( str( util.BUILD_DIR ) + f"/{ file_name }{ util.LANGUAGE_TO_EXECUTABLES[ lang ][ util.FILE_EXT ] }" )
+    file_path = pathlib.Path( str( util.BUILD_DIR ) + f"/{ file_name }{ util.LANGUAGE_MAP[ lang ][ util.FILE_EXT ] }" )
     out_file = open( file_path, 'w' )
     out_file.write( code )
     out_file.close()
