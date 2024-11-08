@@ -133,7 +133,7 @@ def qna():
         question_info = session[ "question_info" ]
 
     else:
-        session[ "question_info" ] = qs.get_question_info_for_client( )
+        session[ "question_info" ] = qs.get_question_info_for_client(  )
         question_info = session[ "question_info" ]
 
     if "test_results" in session:
@@ -144,6 +144,9 @@ def qna():
 
     if "lang" not in session:
         session[ "lang" ] = util.PYTHON_LANG
+
+    if "question_id" not in session:
+        session[ "question_id" ] = 1
 
     # Currently, the only way that this block is
     # triggered is if the user is submitting the
@@ -197,9 +200,19 @@ def qna():
 # WE PROVIDE THIS FUNCTIONS FOR FUTURE USE BUT
 # THEY ARE NOT CURRENTLY BEING USED OTHER THAN
 # AS PLACEHOLDERS FOR FUTURE IMPLEMENTATIONS
-@app.route( '/questions' )
+@app.route( '/questions', methods=[ "GET", "POST" ] )
 def questions():
     all_questions = qs.get_all_questions_for_popup()
+    for key in [ "lang", "test_cases", "question_info", "question_id", "test_results" ]:
+        if key in session:
+            session.pop( key )
+
+    if request.method == "POST":
+        data = request.get_json()
+        session[ "lang" ] = util.PYTHON_LANG
+        session[ "question_id" ] = data[ "question_id" ]
+        return redirect( url_for( "qna" ) )
+
     return render_template( 'questions.html', 
                             links=list_of_base_pages, 
                             active_page="questions",
