@@ -34,9 +34,9 @@ Sources: W3Schools, Flask Documentation:
             <p id="test-cases">
                 {% for i in range( num_of_tests ) %}
                     {% if test_results[ i ] %}
-                        <span style="color:green;">{{ question_info[ "test_cases" ][ i ] }}</span> <br>
+                        <span style="color:green;">{{ question_info[ "test_cases" ][ i ] }} : Pass</span> <br>
                     {% else %}
-                        <span style="color:red;">{{ question_info[ "test_cases" ][ i ] }}</span> <br>
+                        <span style="color:red;">{{ question_info[ "test_cases" ][ i ] }} : Fail</span> <br>
                     {% endif %}
                 {% endfor %}
             </p>
