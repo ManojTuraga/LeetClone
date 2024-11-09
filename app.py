@@ -171,7 +171,6 @@ def qna():
         
         if data[ "type" ] == "lang_switch":
             session[ "test_results" ] = []
-        
             
         return redirect( url_for( "qna" ) )
             

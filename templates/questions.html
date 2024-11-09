@@ -10,10 +10,7 @@
     <div class="questions-container">
         <ul id="questions-list">
             {% for question in all_questions %}
-            <li onclick="gotoQuestion( '{{ question[ 0 ] }}' )">{{ question[ 1 ] }}</li>
-            <div class="question-popup">
-                {{ question[ 1 ] }}
-            </div>
+            <li onclick="gotoQuestion( '{{ question[ 0 ] }}' )" class="question-item">{{ question[ 1 ] }}<div class="question-popup">{{ question[ 2 ] }}</div></li>
             {% endfor %}
         </ul>
     </div>

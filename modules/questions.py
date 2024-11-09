@@ -79,7 +79,7 @@ class Questions:
         return { "test_cases": test_cases_new, "context_code": context_code }
 
     def get_all_questions_for_popup( self ):
-        query = f"SELECT question_id, title FROM question ORDER BY question_id"
+        query = f"SELECT question_id, title, prompt FROM question ORDER BY question_id"
         questions = backend.execute_query( self._cursor, query )
 
         return questions

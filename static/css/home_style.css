@@ -1,157 +1,15 @@
 @import url( "imports/base.css" );
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #000;
-    color: white;
-    position: fixed;
-    height: 50px;
-    width: calc(100% - 40px); 
-    left: 0px; 
-    top: 0;
-    transition: width 0.3s, left 0.3s;
-}
-
-.logo img {
-    height: 225px;
-    width : 225px;
-    margin-top: 50px;
-}
-
-.auth-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.auth-buttons .login-btn {
-    background-color: #575757;
-    color: white;
-    border: thin double ;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.auth-buttons .login-btn:hover {
-    background-color: #ef0303;
-}
-
-.auth-buttons .signup-btn {
-    background-color: #575757;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.auth-buttons .signup-btn:hover {
-    background-color: #ef0303;
-}
-
-/* Sidebar styles */
-.sidebar {
-    width: 250px;
-    background-color: #333;
-    color: white;
-    height: 100vh;
-    position: fixed; /* Keeps sidebar fixed on the left */
-    left: 0;
-    top: 0;
-    transition: width 0.3s;
-    overflow: hidden;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar a {
-    display: block;
-    color: white;
-    padding: 10px;
-    text-decoration: none;
-    font-size: 18px;
-    transition: all 0.3s;
-    pointer-events: auto;
-}
-
-.sidebar h2 {
-    text-align: center;
-    color: #ce5454;
-    font-size: 30px;
-    transition: all 0.3s;
-}
-
-.sidebar a:hover {
-    background-color: #575757;
-}
-
-.sidebar.collapsed {
-    width: 30px;
-}
-
-.sidebar.collapsed a {
-    font-size: 0; 
-    padding-left: 0;
-    padding: 10px 5px; 
-    opacity: 0; 
-}
-
-.sidebar.collapsed h2 {
-    font-size: 0; 
-}
-
-
-.toggle-btn {
-    margin-top: auto; 
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.toggle-btn:hover {
-    background-color: #575757;
-    border-radius: 5px;
-    width: 100%;
-}
-
-.toggle-btn.collapsed {
-    transform: rotate(180deg);
-}
-
 .content {
     display: flex;
-    align-items: center;
-    justify-content: center;
     height: 100vh;
-    width: calc(100% - 250px); /* Adjusts for sidebar width */
-    margin-left: 250px; /* Offsets for sidebar */
+    margin-left: 0px; /* Offsets for sidebar */
+    align-self: center;
     padding-top: 50px;
     gap: 20px; /* Adds space between the button and video */
 }
 
 .gif-container {
-    justify-content: center;
-    align-items: center;
 }
 
 .start-btn {
@@ -215,7 +73,6 @@ body {
 .video-container {
     flex: 1; /* Allows the video to take remaining space */
     display: flex;
-    justify-content: center;
 }
 
 .main-content 
