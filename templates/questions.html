@@ -11,6 +11,9 @@
         <ul id="questions-list">
             {% for question in all_questions %}
             <li onclick="gotoQuestion( '{{ question[ 0 ] }}' )">{{ question[ 1 ] }}</li>
+            <div class="question-popup">
+                {{ question[ 1 ] }}
+            </div>
             {% endfor %}
         </ul>
     </div>
