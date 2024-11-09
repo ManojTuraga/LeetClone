@@ -53,9 +53,9 @@ document.getElementById('runButton').addEventListener('click', () => {
   const lang = lang_button.textContent || lang_button.innerText;
   
   /**************************************
-   Send the information to the server for
-   processing
-   **************************************/
+  Send the information to the server for 
+  processing
+  **************************************/
   response = fetch("/qna", {
       method: "POST",
       headers: {
@@ -67,6 +67,10 @@ document.getElementById('runButton').addEventListener('click', () => {
     location.reload();
 });
 
+/**************************************
+Create a callback for when the language
+is selected on the language selector
+**************************************/
 function lang_vals_on_click( lang_str )
     {
         const lang_button = document.getElementById( 'lang-button' );
@@ -77,6 +81,11 @@ function lang_vals_on_click( lang_str )
         const prompt = document.getElementById( 'promptBox' );
         const q_id = prompt.getAttribute( "value" );
         
+        /**************************************
+        Send the updated language and the 
+        question id back to the server to get
+        the new information
+        **************************************/
         fetch("/qna", {
             method: "POST",
             headers: {
@@ -89,6 +98,13 @@ function lang_vals_on_click( lang_str )
         location.reload();
     }
 
+/**************************************
+Textareas have this funny case where
+the default value can't be changed once
+it is set. Everytime the page is loaded
+make sure to update the text area with
+the correct value
+**************************************/
 window.onload = () => {
     document.getElementById('code').value = document.getElementById('code').defaultValue;
 }

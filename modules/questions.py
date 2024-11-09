@@ -34,21 +34,39 @@ Invariants:
 Known Faults
     None
 '''
-# NOTE: AT THIS POINT, THE FOLLOWING CLASS HAS WHAT
-# WE CONSIDER TO BE THE FUNCTIONS THAT MIGHT BE USED
-# IN IT'S IMPLEMENTATION. IN NO WAY IS THIS THE FINAL
-# IMPLEMENTATION
-
+###############################################################################
+# Imports
+###############################################################################
 from modules import backend
 
+###############################################################################
+# Types
+###############################################################################
+# The following defines the question object, which will query
+# the database for the required data given a particular context
 class Questions:
     def __init__( self, db_cursor ):
+        """
+        Function: Initialization:
+
+        Description: This function initialize this class with a cursor to the
+                     database object with the question information
+        """
         self._cursor = db_cursor
     
     def get_question_info_for_client( self, question_id = 1, lang = "python" ):
+        """
+        Function: Get Question Information for Client
+
+        Description: This function returns all the information that the user
+                     interacts with
+        """
+        # Get the prompt for the the question id
         query = f"SELECT prompt FROM question WHERE question_id={question_id}"
         prompt = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
+        # Get the test cases corresponding to the question id
+        # and convert them into a presentable string
         query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
         test_cases = backend.execute_query( self._cursor, query )
         test_cases_new = []
@@ -58,12 +76,21 @@ class Questions:
             test_cases_new.append( input + " => " + output )
 
 
+        # Get the starter code for the question at the specified
+        # language
         query = f"SELECT starter_code FROM code WHERE question_id={question_id} AND code_id='{lang}'"
         starter_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
         return { "prompt": prompt, "test_cases": test_cases_new, "starter_code": starter_code }
     
     def get_question_info_for_server( self, question_id = 1, lang = "python" ):
+        """
+        Function: Get Question Information for Server
+
+        Description: This function returns all the information that the server
+                     needs interacts with
+        """
+        # Get the test inputs and output
         query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
         test_cases = backend.execute_query( self._cursor, query )
         test_cases_new = []
@@ -72,13 +99,19 @@ class Questions:
             output = case[ 1 ]
             test_cases_new.append( { "input": input, "output": output } )
 
-
+        # Get the context code that the starter needs to execute
         query = f"SELECT context_code FROM code WHERE question_id={question_id} AND code_id='{lang}'"
         context_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
         return { "test_cases": test_cases_new, "context_code": context_code }
 
     def get_all_questions_for_popup( self ):
+        """
+        Function: Get All Questions for Popup
+
+        Description: This Function returns all the prompts, question ids, and
+                     question titles
+        """
         query = f"SELECT question_id, title, prompt FROM question ORDER BY question_id"
         questions = backend.execute_query( self._cursor, query )
 
