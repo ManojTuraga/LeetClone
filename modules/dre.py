@@ -34,17 +34,38 @@ Invariants:
 Known Faults
     None
 '''
+###############################################################################
+# Imports
+###############################################################################
 from modules import utilities as util
 from modules import questions as q
 
-# NOTE: AT THIS POINT, THE FOLLOWING CLASS HAS WHAT
-# WE CONSIDER TO BE THE FUNCTIONS THAT MIGHT BE USED
-# IN IT'S IMPLEMENTATION. IN NO WAY ARE THEY USED ATM
+###############################################################################
+# Types
+###############################################################################
+# The following is the definition of the DRE type, which
+# is essentially a wrapper to call utlility code
 class DRE:
     def __init__( self, cursor ):
+        """
+        Function: Initialization
+
+        Description: This is the initialization function that takes in a cursor
+                     to the database
+        """
         self._questions = q.Questions( cursor )
 
     def execute_code( self, code, question_id, lang ):
-        
+        """
+        Function: Execute Code
+
+        Description: This function will execute the code that the user passes
+                     and will return a list of whether each test case passed
+                     or failed
+        """
+        # Get the server-side context from the data base for the current
+        # question
         context = self._questions.get_question_info_for_server( question_id, lang )
+
+        # Run the code and return the list of pass-fail test cases
         return util.execute_code( code, context, lang )

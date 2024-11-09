@@ -1,14 +1,32 @@
+<!--
+Module: qna.html
+Creation Date: November 6th, 2024
+Author: Clare Channel
+Contributors: Clare Channel, Manoj Turaga
+
+Description:
+    This HTML page is for the Questions section of the application
+    which allows the user to select which question they want to
+    answer
+
+Sources: W3Schools, Flask Documentation:
+-->
+
+<!-- Import the base page -->
 {% extends "imports/base.html" %}
 
+<!-- Set the styling for this page -->
 {% block head %}
 <title>Questions</title>
 <link rel="stylesheet" href="{{ url_for( 'static', filename='css/questions.css' ) }}">
 {% endblock %}
 
+<!-- Populate the questions -->
 {% block main %}
 <div class="content">
     <div class="questions-container">
         <ul id="questions-list">
+            <!-- For every question in the database, initialize list element with the relevant info -->
             {% for question in all_questions %}
             <li onclick="gotoQuestion( '{{ question[ 0 ] }}' )" class="question-item">{{ question[ 1 ] }}<div class="question-popup">{{ question[ 2 ] }}</div></li>
             {% endfor %}
