@@ -108,13 +108,22 @@ def populate_tables(db_cursor):
 def drop_tables(db_cursor):
     db_cursor.execute(
         """
-        DROP TABLE question CASCADE;
+        DROP TABLE IF EXISTS question CASCADE;
+        """
+    )
+    
+    db_cursor.execute(
+        """
+        DROP TABLE IF EXISTS test_case;
+        """
+    )
+    
+    db_cursor.execute(
+        """
+        DROP TABLE IF EXISTS code;
         """
     )
 
-
-# testing purposes only. ONLY DROP IF YOU MESSED UP THE TABLE BASICALLY. TRUE == DROP 
-drop = False
 
 def db_connection():
     db_conn = psycopg2.connect(database=DATABASE,
@@ -130,25 +139,25 @@ def db_connection():
 def db_close(db_conn, db_cursor):
     db_cursor.close()
     db_conn.close()
-    
+ 
+   
 def execute_query( db_cursor, query ):
     db_cursor.execute(
         query
     )
 
     return db_cursor.fetchall()
-    
+
+   
 def db_loop(): 
     
     db_conn, db_cursor = db_connection()
     
-    if not drop:
-        create_tables(db_cursor)
-        populate_tables(db_cursor)
-    else: 
-        drop_tables(db_cursor)
-
+    drop_tables(db_cursor)
+    create_tables(db_cursor)
+    populate_tables(db_cursor)
+        
     db_conn.commit()
     db_close(db_conn, db_cursor)
 
-#db_loop()
+db_loop()
