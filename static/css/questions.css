@@ -35,8 +35,9 @@ and using ChatGPT*/
 .question-item {
     position: relative;
     background-color: #1a1a1a; /* Dark box color for each question */
+    color:red;
     padding: 15px;
-    border: 1px solid rgba(255, 0, 0, 0.282); /* Red border around each question box */
+    border: 1px solid red; /* Red border around each question box */
     border-radius: 8px;
     text-align: left; /* Align text to the left */
     cursor: pointer;
@@ -46,8 +47,9 @@ and using ChatGPT*/
 
 /* Styling when hovwering over an item */
 .question-item:hover {
-    color: red;
+    color: white;
     background-color: #333333; /* Slightly lighter on hover */
+    border-color: white;
 }
 
 /* Styling for the tooltip */
@@ -64,7 +66,7 @@ and using ChatGPT*/
     width: 50%;
     z-index: 1000;
     white-space: pre-wrap;
-    border: 1px solid red;
+    border: 1px solid white;
     margin-left: 10px; /* Space between question and popup */
 }
 

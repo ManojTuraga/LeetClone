@@ -1,16 +1,6 @@
+/* Sources: GeeksforGeeks */
+
 @import url( "imports/base.css" );
-
-.content {
-    display: flex;
-    height: 100vh;
-    margin-left: 0px; /* Offsets for sidebar */
-    align-self: center;
-    padding-top: 50px;
-    gap: 20px; /* Adds space between the button and video */
-}
-
-.gif-container {
-}
 
 .start-btn {
     appearance: button;
@@ -41,7 +31,10 @@
     vertical-align: middle;
     white-space: nowrap;
     width: 200px; /* Fixed width */
-    position: relative; /* Ensures the after element works properly */
+    height: 75px;
+    position: relative;
+    display: none; /* Ensures the after element works properly */
+
   }
   
   .start-btn:after {
@@ -73,18 +66,31 @@
 .video-container {
     flex: 1; /* Allows the video to take remaining space */
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.main-content 
-    {
-    margin-left: 200px;
-    padding: 0px 0px; 
-    flex-grow: 1;
-    transition: margin-left 0.3s;
-    }
+.start-btn-container {
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    width: 200px; /* Fixed width */
+    height: 75px;
+    position: relative; 
+}
 
 #intro-gif {
     width: 500px; /* Set your preferred width */
     height: auto;
     max-width: 100%; /* Ensures it doesn't exceed container width */
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
