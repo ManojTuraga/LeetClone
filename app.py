@@ -48,11 +48,16 @@ Sources: W3Schools, Flask Documentation:
 ###############################################################################
 import pathlib
 import os
+import time
+import json
 
 # From the Flask module, import the Flask app
 # class, the html template renderer, and the
 # request object
+import flask
 from flask import Flask, render_template, request, redirect, session, url_for
+from flask_session import Session
+from flask_socketio import SocketIO, send, emit
 
 from modules import questions as q
 from modules import utilities as util
@@ -67,6 +72,9 @@ from modules import dre
 # Applying decorators to this obe
 app = Flask( __name__ )
 app.secret_key = "test"
+app.config['SESSION_TYPE'] = 'filesystem'
+Session( app )
+socketio = SocketIO( app, manage_session=False )
 
 # Create a global instance of the questions
 # object, DRE object, and the connection to 
@@ -87,6 +95,9 @@ list_of_base_pages = \
       #("qna", "Problem Solver" ), 
       ( "questions", "Questions" ), 
       ( "pvp", "Player vs. Player" ) ]
+
+
+sample_room = []
 
 
 ###############################################################################
@@ -133,15 +144,8 @@ def qna():
     question_info = dict()
     test_results = []
 
-    # If there are tests results already stored in cookies,
-    # use the test results from the cookies. This is only true
-    # when the page is loaded from clicking the back button or
-    # refreshing on the same page
-    if "test_results" in session:
-        test_results = session[ "test_results" ]
-
-    else:
-        test_results = []
+    if "start_time" not in session:
+        session[ "start_time" ] = time.time()
 
     # If the language used for execution is not defined in the
     # cookies, make the inital language python
@@ -164,68 +168,31 @@ def qna():
         session[ "question_info" ] = qs.get_question_info_for_client( session[ "question_id" ], session[ "lang" ] )
         question_info = session[ "question_info" ]
 
-    # If a post request is detected on this page, do the following
-    if request.method == "POST":
-        # Get the data that was sent in the post request
-        data = request.get_json()
+    # If there are tests results already stored in cookies,
+    # use the test results from the cookies. This is only true
+    # when the page is loaded from clicking the back button or
+    # refreshing on the same page
+    if "test_results" in session:
+        test_results = session[ "test_results" ]
 
-        # Fetch the question information corresponding to the question
-        # ID and the language of choice from  the user and assign the
-        # question information to cookies
-        question_info = qs.get_question_info_for_client( data[ "question_id" ], data[ "lang" ] )
-        session[ "question_info" ] = question_info
-        
-        if data[ "type" ] == "code_submit":
-            # If the user is submitting code, execute the code
-            # with the DRE instance
-            test_results = exec.execute_code( data[ "code" ],
-                                              data[ "question_id" ],
-                                              data[ "lang" ] )
-            
-            # Replace the starter code with the code the user submitted
-            # and update the question id in cache to be safe
-            session[ "question_info" ][ "starter_code" ] = data[ "code" ]
-            session[ "question_id" ] = data[ "question_id" ]
-
-        # Update the language that was selected for all instances because the
-        # language will be sent in every post case. Also assign whatever 
-        # the result of the tests were back to cookies
-        session[ "lang" ] = data[ "lang" ]
-        session[ "test_results" ] = test_results
-        
-        # If we are switching the language, clear out any previous
-        # test results
-        if data[ "type" ] == "lang_switch":
-            session[ "test_results" ] = []
-
-        # Return the page itself as a GET request to reload any
-        # default cookies    
-        return redirect( url_for( "qna" ) )
-            
     else:
-        # If there are no test results previously instantiated
-        # try to create a list of all FALSEs to indicate that
-        # tests have passed
-        if "test_results" not in session:
-            try:
-                test_results = [ False for i in range( len( question_info[ "test_cases" ] ) ) ]
-            except:
-                test_results = []
+        test_results = []
 
-    # Render the qna.html page with a list of links
-    # to different pages and pass all the required
-    # variables to render the page 
-    session[ "question_info" ] = question_info
-    session[ "test_results" ] = test_results
+    time_diff = 0
+
+    if len( test_results ) > 0 and all( test_results ):
+        session[ "end_time" ] = time.time()
+        time_diff = session[ "end_time" ] - session[ "start_time" ]
+
     return render_template( 'qna.html', 
                             links=list_of_base_pages, 
                             active_page="qna", 
                             question_info=question_info,
                             supported_langs=util.SUPPORTED_LANGUAGES,
-                            question_id=session[ "question_id" ],
                             test_results=test_results,
                             num_of_tests=len(question_info[ "test_cases" ]),
-                            lang=session[ "lang" ] )
+                            lang=session[ "lang" ],
+                            time_diff=time_diff )
 
 
 @app.route( '/questions', methods=[ "GET", "POST" ] )
@@ -239,23 +206,6 @@ def questions():
     # Get all the questions from the database
     all_questions = qs.get_all_questions_for_popup()
 
-    # Remove anything that is stored in cache that should not be preserved
-    # on a question load
-    for key in [ "lang", "test_cases", "question_info", "question_id", "test_results" ]:
-        if key in session:
-            session.pop( key )
-
-    # If there is a post request on this page, do the
-    # following
-    if request.method == "POST":
-        # Get question ID from the post request and set the
-        # inital language to python and set the cache in the
-        # qna redirect
-        data = request.get_json()
-        session[ "lang" ] = util.PYTHON_LANG
-        session[ "question_id" ] = data[ "question_id" ]
-        return redirect( url_for( "qna" ) )
-
     # Render the base page of the questions page with all
     # of the questions that we have to offer
     return render_template( 'questions.html', 
@@ -267,6 +217,10 @@ def questions():
 # WE PROVIDE THIS FUNCTIONS FOR FUTURE USE BUT
 # THEY ARE NOT CURRENTLY BEING USED OTHER THAN
 # AS PLACEHOLDERS FOR FUTURE IMPLEMENTATIONS
+@socketio.on( 'test' )
+def handle_redirect( data ):
+    return redirect( url_for( "home" ) )
+
 @app.route( '/pvp' )
 def pvp():
     return render_template( 'pvp.html', 
@@ -274,8 +228,73 @@ def pvp():
                             active_page="pvp" )
 
 ###############################################################################
-# Procedures
+# API Calls
 ###############################################################################
+def home_page_node( data ):
+    pass
+
+@socketio.on( 'QUESTION SELECTION' )
+def qna_page_node( data ):
+    @clear_from_session_wrapper
+    def clear_from_sessions():
+        return [ "lang", "question_id" ]
+
+    clear_from_sessions()
+    session[ "lang" ] = util.PYTHON_LANG
+    session[ "question_id" ] = data[ "question_id" ]    
+
+    return json.dumps( { "status": "success" } )
+
+@socketio.on( 'LANGUAGE SWITCH' )
+def questions_page_lang_switch_node( data ):
+    @clear_from_session_wrapper
+    def clear_from_sessions():
+        return [ "lang", "question_id" ]
+
+    clear_from_sessions()
+    
+    session[ "lang" ] = data[ "lang" ]
+    
+    return json.dumps( { "status": "success" } )
+
+@socketio.on( 'CODE SUBMIT' )
+def questions_page_code_submit_node( data ):
+    # Fetch the question information corresponding to the question
+    # ID and the language of choice from  the user and assign the
+    # question information to cookies
+    session[ "question_info" ] = qs.get_question_info_for_client( session[ "question_id" ], 
+                                                                  session[ "lang" ] )
+    
+    # Run the code in the DRE
+    test_results = exec.execute_code( data[ "code" ],
+                                      session[ "question_id" ],
+                                      session[ "lang" ] )
+    
+    # Store the user inputted code in cookies to persist
+    # on page refresh
+    session[ "question_info" ][ "starter_code" ] = data[ "code" ]
+        
+    # Write the test results to cookies
+    session[ "test_results" ] = test_results
+
+    # Indicate that the operation was successful
+    return json.dumps( { "status": "success" } )
+
+def pvp_page_node( data ):
+    pass
+
+###############################################################################
+# Helper Procedures
+###############################################################################
+def clear_from_session_wrapper( func ):
+        def wrapper( *args, **kwargs ):
+            to_keep = func( *args, **kwargs )
+
+            for key in [ "lang", "test_cases", "question_info", "question_id", "test_results", "start_time", "end_time" ]:
+                if key not in to_keep and key in session:
+                    session.pop( key )
+
+        return wrapper
 
 if __name__ == '__main__':
     app.run(debug=True)

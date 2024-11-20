@@ -44,18 +44,7 @@ function gotoQuestion( question_id )
     Send the selected question back to the
     server
     **************************************/
-    fetch("/questions", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ question_id: question_id })
-    });
-    /**************************************
-    Redirect to the QNA page after the
-    cache reloads
-    **************************************/
-    alert( "Question Selected, click to continue!" );
-    window.location = "/qna";
+    var socket = io();
+    socket.emit( 'QUESTION SELECTION', { question_id: question_id }, (response) => { console.log(response);  socket.close(); window.location = "/qna"; } );
     }
 
