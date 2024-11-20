@@ -57,7 +57,7 @@ import json
 import flask
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_session import Session
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, send, emit, join_room, rooms
 
 from modules import questions as q
 from modules import utilities as util
@@ -280,8 +280,10 @@ def questions_page_code_submit_node( data ):
     # Indicate that the operation was successful
     return json.dumps( { "status": "success" } )
 
+@socketio.on( 'JOIN ROOM' )
 def pvp_page_node( data ):
-    pass
+    join_room( data[ "room_id" ] )
+    emit('room_count', {'count': len(rooms(data[ "room_id" ]))}, to=data[ "room_id" ])
 
 ###############################################################################
 # Helper Procedures
@@ -297,4 +299,4 @@ def clear_from_session_wrapper( func ):
         return wrapper
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
