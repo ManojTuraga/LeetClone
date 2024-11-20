@@ -33,39 +33,23 @@ Invariants:
 Known Faults:
     None
 
-Sources: W3Schools
+Sources: W3Schools, Decode.sh, Flask SocketIO Documentation
 ******************************************************************************/
 
 /**************************************
 Create a callback on the runButton on
 the QNA page
 **************************************/
-document.getElementById('runButton').addEventListener('click', () => {
-  /**************************************
-  Get the code that was in the text area
-  **************************************/
-  const code = document.getElementById('code').value;
-  
-  const lang_button = document.getElementById( 'lang-button' );
-  const prompt = document.getElementById( 'promptBox' );
-  const q_id = prompt.getAttribute( "value" );
-  
-  const lang = lang_button.textContent || lang_button.innerText;
-  
-  /**************************************
-  Send the information to the server for 
-  processing
-  **************************************/
-  response = fetch("/qna", {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ code: code, lang: lang, question_id: q_id, type: "code_submit" })
-    });
-    alert( "Code Submittied, Click to see results!" );
-    location.reload();
-});
+document.getElementById('runButton').addEventListener( 'click', () => 
+    {
+    /**************************************
+    Get the code that was in the text area
+  * *************************************/
+    const code = document.getElementById('code').value;
+    
+    var socket = io();
+    socket.emit( 'CODE SUBMIT', { code: code }, (response) => { console.log(response);  socket.close(); location.reload() } );
+    } );
 
 /**************************************
 Create a callback for when the language
@@ -73,29 +57,12 @@ is selected on the language selector
 **************************************/
 function lang_vals_on_click( lang_str )
     {
-        const lang_button = document.getElementById( 'lang-button' );
-        lang_button.textContent = lang_str;
-        lang_button.innerText = lang_str;
+    const lang_button = document.getElementById( 'lang-button' );
+    lang_button.textContent = lang_str;
+    lang_button.innerText = lang_str;
 
-        
-        const prompt = document.getElementById( 'promptBox' );
-        const q_id = prompt.getAttribute( "value" );
-        
-        /**************************************
-        Send the updated language and the 
-        question id back to the server to get
-        the new information
-        **************************************/
-        fetch("/qna", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ lang: lang_str, question_id: q_id, type: "lang_switch" })
-        });
-        
-        alert( "Language Changed, Click to Update!" );
-        location.reload();
+    var socket = io();
+    socket.emit( 'LANGUAGE SWITCH', { lang: lang_str }, (response) => { console.log(response);  socket.close(); location.reload() } );
     }
 
 /**************************************
@@ -108,3 +75,16 @@ the correct value
 window.onload = () => {
     document.getElementById('code').value = document.getElementById('code').defaultValue;
 }
+
+document.getElementById('code').addEventListener("keydown", (e) => {
+    if (e.key == "Tab") {
+      e.preventDefault();
+      const textArea = e.currentTarget;
+      textArea.setRangeText(
+        "\t",
+        textArea.selectionStart,
+        textArea.selectionEnd,
+        "end"
+      );
+    }
+  });
