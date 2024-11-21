@@ -107,3 +107,23 @@ class CodeStatistics:
         print(f'Total Execution Time: {self.total_runtime}')
         print(f'Average Execution Time: {self.average_runtime}')
         print(f'Approximate Time Complexity: {self.approx_t_complex}')
+
+
+# Calculate the time to execute from doing function in_func with the rest of
+# arguments as arguments to pass to in_func
+def time_to_exec(in_func, *args):
+    start_t = time.time()
+    in_func(*args)
+    end_t = time.time()
+
+    return end_t - start_t
+
+
+# Create a time to execute table from a list of inputs ran through in_func.
+# Each element in list should just be a single object unless is_multi_arg is
+# true and then each element should be a tuple of arguments to pass in
+def create_time_to_exec_table(in_func, n_table, is_multi_arg=False):
+    if is_multi_arg:
+        return [time_to_exec(in_func, *n) for n in n_table]
+    else:
+        return [time_to_exec(in_func, n) for n in n_table]
