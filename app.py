@@ -282,8 +282,15 @@ def questions_page_code_submit_node( data ):
 
 @socketio.on( 'JOIN ROOM' )
 def pvp_page_node( data ):
+    temp = data[ "room_id" ]
     join_room( data[ "room_id" ] )
-    emit('room_count', {'count': len(rooms(data[ "room_id" ]))}, to=data[ "room_id" ])
+    emit('room_count', {'count': len( socketio.server.manager.rooms[ '/' ][ "test_room" ] )}, to=data[ "room_id" ])
+    return json.dumps( { "status": "success" } )
+
+@socketio.on( 'test_reload' )
+def pvp_page_node_test( data ):
+    emit('test_reload_out', {}, to="test_room")
+    return json.dumps( { "status": "success" } )
 
 ###############################################################################
 # Helper Procedures
@@ -299,4 +306,4 @@ def clear_from_session_wrapper( func ):
         return wrapper
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=True,)

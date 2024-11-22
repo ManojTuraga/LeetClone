@@ -35,7 +35,7 @@ Sources: W3Schools, Flask Documentation:
                 {% if page[ 0 ] != active_page %}
                 <a href="{{ page[ 0 ] }}">{{ page[ 1 ] }}</a>
                 {% else %}
-                <a id="activepage">{{ page[ 1 ] }}</a>
+                <a id="activepage" onclick="socket.emit( 'test_reload', { room_id: 'test_room' }, (response) => { console.log(response) } );">{{ page[ 1 ] }}</a>
                 {% endif %}
             {% endfor %}
             <!-- Add a toggle button -->
