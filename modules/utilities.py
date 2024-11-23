@@ -16,6 +16,8 @@ import pathlib
 import subprocess
 import random
 import string
+import os
+from modules import stats
 
 
 ###############################################################################
@@ -25,7 +27,6 @@ import string
 # Create the location where the user's code will be
 # stored and executed
 BUILD_DIR = pathlib.Path( "build" )
-
 
 PYTHON_LANG = "python"
 C_LANG = "c"
@@ -87,7 +88,15 @@ def execute_code( code, context, lang ):
     
     Description: This function will take in any code and execute it against
                  the test cases provided.
+
+                 [Added by Henry, but maybe this is a bad idea and needs moved: Also
+                 Execute the code to get the time complexity and return that and
+                 the run time also here.]
     """
+    #set up values later maybe returned even in case of error
+    complexity = None
+    time_baseline = None
+
     # Generate a random string that will be used as the file name
     filename = random_file_name()
 
@@ -100,8 +109,11 @@ def execute_code( code, context, lang ):
     # all the test cases failed
     if not successful_compile:
         __result.extend( [ False for i in range( len( test_cases ) ) ] )
-        subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] )
-        return __result
+        if os.name == 'nt':
+            subprocess.call( [ "del", str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ], shell=True )
+        else:
+            subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] )
+        return __result, complexity, time_baseline
 
     else:
         # For every test provided for this question, do the following
@@ -124,12 +136,88 @@ def execute_code( code, context, lang ):
             except subprocess.CalledProcessError:
                 __result.append( False )
 
+        #wooo adding stuff time (poggers, ect.)
+        #Really, this comment is supposed to signal added code to other project members
+        #so thats what the wacky comment is for
+        #to grab attention
+        #anyways
+
+        #The idea here is that this function also returns time complexity results.
+        #so we don't need to call more than 1 function for getting results
+        #so these are calculated here
+
+        #set up stuffs and run basic stats to prepare for time complexity
+        #the n_table will be based off of the first test case because I say so
+        n_table = []
+
+        test_used = test_cases[0]
+
+        #some values used to regulate the tests
+        num_tests = 6
+        base_test_mult = 1
+        per_test_mult = 1.2
+
+        cur_mult = base_test_mult
+        for test_value in range(num_tests):
+            #augment the args
+            aug_args = [' '.join(str(int(x) * cur_mult) for x in test_used['input'].split())] 
+            
+            aug_args.append(test_used['output'])
+            
+            #add result to the n_table
+            n_table.append(aug_args)
+
+            #increase the value for next time
+            cur_mult += int(cur_mult * per_test_mult)
+
+        #put the code into a function, it helps stuff out
+        def _run_code(test_input_spec, test_output_spec):
+            #behold my supreme levels of jank
+            #sorry if someone has to go through and recomment this
+            try:
+                if lang == PYTHON_LANG:
+                    subprocess.check_output( [ f"python3" ] + [ str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] + test_input_spec.split( ' ' ) + test_output_spec.split( ' ' ) )
+
+                if lang == C_LANG:
+                    subprocess.check_output( [ "./" + str( BUILD_DIR ) + f"/{ filename }" ] + test_input_spec.split( ' ' ) + test_output_spec.split( ' ' ) )
+
+            except subprocess.CalledProcessError as e:
+                # Allow sys.exit(1) specifically
+                if e.returncode != 1:
+                    if os.name == 'nt':  # Windows
+                        subprocess.call(["del", str(BUILD_DIR) + f"\\{filename}{LANGUAGE_MAP[lang][FILE_EXT]}"], shell=True)
+                        subprocess.call( [ "del", str( BUILD_DIR ) + f"/{ filename }" ], shell=True )
+                    else:  # Unix/Linux
+                        subprocess.call(["rm", str(BUILD_DIR) + f"/{filename}{LANGUAGE_MAP[lang][FILE_EXT]}"])
+                        subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }" ] )
+                    raise  
+                # Handle other errors silently
+                pass
+
+        time_table = stats.create_time_to_exec_table(_run_code, n_table, is_multi_arg=True)
+
+        #at this point, we need the n_table in a different format.
+        #make it into size amounts
+        for i_ in range(len(n_table)):
+            #I felt like making it one line
+            n_table[i_] = sum([abs(int(num)) for num in n_table[i_][0].split(" ")])
+
+        time_baseline = time_table[0]
+
+        code_stat_getter = stats.CodeStatistics(n_table, time_table)
+
+        code_stat_getter.calc_approx_t_complex()
+
+        complexity = code_stat_getter.approx_t_complex
+
         # Remove any of the files that could have been generated
         # as a result of trying to execute the code
-        subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] )
-        subprocess.call( [ "rm", str( BUILD_DIR ) + f"/{ filename }" ] )
-    
-    return __result
+        if os.name == 'nt':  # Windows
+            subprocess.call(["del", str(BUILD_DIR) + f"\\{filename}{LANGUAGE_MAP[lang][FILE_EXT]}"], shell=True)
+        else:  # Unix/Linux
+            subprocess.call(["rm", str(BUILD_DIR) + f"/{filename}{LANGUAGE_MAP[lang][FILE_EXT]}"])
+
+    return __result, complexity, time_baseline
 
 def random_file_name():
     """
