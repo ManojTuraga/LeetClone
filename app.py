@@ -180,6 +180,13 @@ def qna():
     else:
         test_results = []
 
+    # If there are no tc resutls or time data put in filler values.
+    if "tc_data" not in session:
+        session[ "tc_data" ] = "none"
+    
+    if "run_time" not in session:
+        session[ "run_time" ] = str(0)
+
     time_diff = 0
 
     if len( test_results ) > 0 and all( test_results ):
@@ -192,13 +199,15 @@ def qna():
                             question_info=question_info,
                             supported_langs=util.SUPPORTED_LANGUAGES,
                             test_results=test_results,
+                            tc_data=session['tc_data'],
+                            run_time = session['run_time'],
                             num_of_tests=len(question_info[ "test_cases" ]),
-                            lang=session[ "lang" ],
-                            time_diff=time_diff )
+                            lang=session[ "lang" ] )
 
 
 @app.route( '/questions', methods=[ "GET", "POST" ] )
 def questions():
+
     """
     Function: Questions
 
@@ -271,13 +280,15 @@ def questions_page_code_submit_node( data ):
                                                                   session[ "lang" ] )
     
     # Run the code in the DRE
-    test_results = exec.execute_code( data[ "code" ],
-                                      session[ "question_id" ],
+    test_results, complexity, time_baseline = exec.execute_code( data[ "code" ],
+                                                     session[ "question_id" ],
                                       session[ "lang" ] )
     
     # Store the user inputted code in cookies to persist
     # on page refresh
     session[ "question_info" ][ "starter_code" ] = data[ "code" ]
+    session[ "tc_data" ] = complexity
+    session[ "run_time" ] = str(time_baseline)
         
     # Write the test results to cookies
     session[ "test_results" ] = test_results
