@@ -178,7 +178,7 @@ def qna():
         if data[ "type" ] == "code_submit":
             # If the user is submitting code, execute the code
             # with the DRE instance
-            test_results = exec.execute_code( data[ "code" ],
+            test_results, complexity, time_baseline = exec.execute_code( data[ "code" ],
                                               data[ "question_id" ],
                                               data[ "lang" ] )
             
@@ -186,6 +186,10 @@ def qna():
             # and update the question id in cache to be safe
             session[ "question_info" ][ "starter_code" ] = data[ "code" ]
             session[ "question_id" ] = data[ "question_id" ]
+
+            #save the data from the tc
+            session[ "tc_data" ] = complexity
+            session[ "run_time" ] = str(time_baseline)
 
         # Update the language that was selected for all instances because the
         # language will be sent in every post case. Also assign whatever 
@@ -212,6 +216,13 @@ def qna():
             except:
                 test_results = []
 
+    # If there are no tc resutls or time data put in filler values.
+    if "tc_data" not in session:
+        session[ "tc_data" ] = "none"
+    
+    if "run_time" not in session:
+        session[ "run_time" ] = str(0)
+
     # Render the qna.html page with a list of links
     # to different pages and pass all the required
     # variables to render the page 
@@ -224,12 +235,15 @@ def qna():
                             supported_langs=util.SUPPORTED_LANGUAGES,
                             question_id=session[ "question_id" ],
                             test_results=test_results,
+                            tc_data=session['tc_data'],
+                            run_time = session['run_time'],
                             num_of_tests=len(question_info[ "test_cases" ]),
                             lang=session[ "lang" ] )
 
 
 @app.route( '/questions', methods=[ "GET", "POST" ] )
 def questions():
+
     """
     Function: Questions
 
