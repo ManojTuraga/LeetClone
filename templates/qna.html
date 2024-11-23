@@ -30,7 +30,7 @@ Sources: W3Schools, Flask Documentation:
             <p id="promptText">{{ question_info[ "prompt" ] }}</p>
         </div>
         <div class="test">
-            <h2>Test Cases</h2>
+            <h2>Test Cases and Timing</h2>
             <p id="test-cases">
                 {% for i in range( num_of_tests ) %}
                     {% if test_results[ i ] %}
@@ -39,6 +39,8 @@ Sources: W3Schools, Flask Documentation:
                         <span style="color:red;">{{ question_info[ "test_cases" ][ i ] }} : Fail</span> <br>
                     {% endif %}
                 {% endfor %}
+                <span style="color:darkred;">TC: {{tc_data}}</span> <br>
+                <span style="color:darkred;">Runtime: {{run_time}}</spban> <br>
             </p>
         </div>
     </div>
