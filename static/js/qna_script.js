@@ -35,6 +35,13 @@ Known Faults:
 
 Sources: W3Schools, Decode.sh, Flask SocketIO Documentation
 ******************************************************************************/
+/**************************************
+Initialize a socket that will be used
+to communciate with the game room
+**************************************/
+var socket = io( { closeOnBeforeunload: false } );
+
+socket.on( "TEST MULTIPLAYER", () => { alert( "You are bad at programming lol" ) } );
 
 /**************************************
 Create a callback on the runButton on
@@ -47,8 +54,14 @@ document.getElementById('runButton').addEventListener( 'click', () =>
   * *************************************/
     const code = document.getElementById('code').value;
     
-    var socket = io();
-    socket.emit( 'CODE SUBMIT', { code: code }, (response) => { console.log(response);  socket.close(); location.reload() } );
+    var submit = { code: code };
+
+    if( sessionStorage.getItem( "room_id" ) != null )
+        {
+        submit[ "room_id" ] = sessionStorage.getItem( "room_id" );
+        }
+
+    socket.emit( 'CODE SUBMIT', submit, (response) => { console.log(response);  socket.close(); location.reload() } );
     } );
 
 /**************************************
@@ -61,7 +74,6 @@ function lang_vals_on_click( lang_str )
     lang_button.textContent = lang_str;
     lang_button.innerText = lang_str;
 
-    var socket = io();
     socket.emit( 'LANGUAGE SWITCH', { lang: lang_str }, (response) => { console.log(response);  socket.close(); location.reload() } );
     }
 
@@ -74,6 +86,10 @@ the correct value
 **************************************/
 window.onload = () => {
     document.getElementById('code').value = document.getElementById('code').defaultValue;
+    if( sessionStorage.getItem( "room_id" ) != null )
+        {
+        socket.emit( 'HIDDEN JOIN ROOM', { room_id: sessionStorage.getItem( "room_id" ) }, ( response ) => { console.log( response ) } );
+        }
 }
 
 document.getElementById('code').addEventListener("keydown", (e) => {

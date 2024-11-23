@@ -1,11 +1,48 @@
+<!-- Import the base page -->
 {% extends "imports/base.html" %}
 
-<!-- Set the styling for this page -->
+<!-- Add the title of the page and any CSS styling to the base page -->
 {% block head %}
+<title>PvP</title>
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/pvp.css' ) }}">
 {% endblock %}
 
-<!-- Populate the questions -->
+
 {% block main %}
+<div class="container">
+<!-- Left Side: Join Party and Create Party -->
+<div class="left-side">
+    <h2>Join Party</h2>
+    <label for="join-code">Enter Code:</label>
+    <input type="text" id="join-code" placeholder="Enter 6-digit code">
+    <button class="button" id="join-button">Join Party</button>
+    <div class="dropdown">
+        <button class="dropdown-button" id="player-type" >Host</button>
+        <div class="dropdown-content">
+            <p onclick="player_type_on_click( 'Host' )" >Host</p>
+            <p onclick="player_type_on_click( 'Join' )" >Join</p>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropdown-button" id="question-button" value={{ list_of_questions[ 0 ][ 0 ] }}>{{ list_of_questions[ 0 ][ 1 ] }}</button>
+        <div class="dropdown-content">
+            {% for question in list_of_questions %}
+            <p value={{ question[ 0 ] }} onclick="question_vals_on_click( '{{ question[ 1 ] }}', '{{ question[ 0 ] }}' )" >{{ question[ 1 ] }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Right Side: Waiting Room and Start Party -->
+<div class="right-side">
+    <div class="waiting-room">
+    <h3>Waiting Room</h3>
+    <ul id="waiting-room-list"></ul>
+    </div>
+
+    <button class="button" id="start-button">Start Party</button>
+</div>
+</div>
 {% endblock %}
 
 {% block scripts %}

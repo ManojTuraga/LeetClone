@@ -39,6 +39,13 @@ Known Faults
 ###############################################################################
 from modules import backend
 
+import threading
+
+###############################################################################
+# Variables
+###############################################################################
+lock = threading.Lock()
+
 ###############################################################################
 # Types
 ###############################################################################
@@ -62,24 +69,25 @@ class Questions:
                      interacts with
         """
         # Get the prompt for the the question id
-        query = f"SELECT prompt FROM question WHERE question_id={question_id}"
-        prompt = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
+        with lock:
+            query = f"SELECT prompt FROM question WHERE question_id={question_id}"
+            prompt = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
-        # Get the test cases corresponding to the question id
-        # and convert them into a presentable string
-        query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
-        test_cases = backend.execute_query( self._cursor, query )
-        test_cases_new = []
-        for case in test_cases:
-            input = case[ 0 ].replace( ' ', ', ' )
-            output = case[ 1 ]
-            test_cases_new.append( input + " => " + output )
+            # Get the test cases corresponding to the question id
+            # and convert them into a presentable string
+            query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
+            test_cases = backend.execute_query( self._cursor, query )
+            test_cases_new = []
+            for case in test_cases:
+                input = case[ 0 ].replace( ' ', ', ' )
+                output = case[ 1 ]
+                test_cases_new.append( input + " => " + output )
 
 
-        # Get the starter code for the question at the specified
-        # language
-        query = f"SELECT starter_code FROM code WHERE question_id={question_id} AND code_id='{lang}'"
-        starter_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
+            # Get the starter code for the question at the specified
+            # language
+            query = f"SELECT starter_code FROM code WHERE question_id={question_id} AND code_id='{lang}'"
+            starter_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
         return { "prompt": prompt, "test_cases": test_cases_new, "starter_code": starter_code }
     
@@ -90,18 +98,19 @@ class Questions:
         Description: This function returns all the information that the server
                      needs interacts with
         """
-        # Get the test inputs and output
-        query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
-        test_cases = backend.execute_query( self._cursor, query )
-        test_cases_new = []
-        for case in test_cases:
-            input = case[ 0 ]
-            output = case[ 1 ]
-            test_cases_new.append( { "input": input, "output": output } )
+        with lock:
+            # Get the test inputs and output
+            query = f"SELECT inputs, output FROM test_case WHERE question_id={question_id}"
+            test_cases = backend.execute_query( self._cursor, query )
+            test_cases_new = []
+            for case in test_cases:
+                input = case[ 0 ]
+                output = case[ 1 ]
+                test_cases_new.append( { "input": input, "output": output } )
 
-        # Get the context code that the starter needs to execute
-        query = f"SELECT context_code FROM code WHERE question_id={question_id} AND code_id='{lang}'"
-        context_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
+            # Get the context code that the starter needs to execute
+            query = f"SELECT context_code FROM code WHERE question_id={question_id} AND code_id='{lang}'"
+            context_code = backend.execute_query( self._cursor, query )[ 0 ][ 0 ]
 
         return { "test_cases": test_cases_new, "context_code": context_code }
 
@@ -112,7 +121,8 @@ class Questions:
         Description: This Function returns all the prompts, question ids, and
                      question titles
         """
-        query = f"SELECT question_id, title, prompt FROM question ORDER BY question_id"
-        questions = backend.execute_query( self._cursor, query )
+        with lock:
+            query = f"SELECT question_id, title, prompt FROM question ORDER BY question_id"
+            questions = backend.execute_query( self._cursor, query )
 
         return questions

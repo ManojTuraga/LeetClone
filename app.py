@@ -57,7 +57,9 @@ import json
 import flask
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_session import Session
-from flask_socketio import SocketIO, send, emit, join_room, rooms
+from flask_socketio import SocketIO, send, emit, join_room, leave_room, rooms
+
+from bidict import bidict
 
 from modules import questions as q
 from modules import utilities as util
@@ -223,9 +225,12 @@ def handle_redirect( data ):
 
 @app.route( '/pvp' )
 def pvp():
+    all_questions = qs.get_all_questions_for_popup()
+
     return render_template( 'pvp.html', 
-                            links=list_of_base_pages, 
-                            active_page="pvp" )
+                            links=list_of_base_pages,
+                            active_page="pvp",
+                            list_of_questions=all_questions )
 
 ###############################################################################
 # API Calls
@@ -277,19 +282,62 @@ def questions_page_code_submit_node( data ):
     # Write the test results to cookies
     session[ "test_results" ] = test_results
 
+    if "room_id" in data and [ True ] * len( test_results ) == test_results and len( test_results ) > 0 :
+        socketio.emit( "TEST MULTIPLAYER", {}, to=data[ "room_id" ], skip_sid=request.sid )
+
     # Indicate that the operation was successful
     return json.dumps( { "status": "success" } )
 
 @socketio.on( 'JOIN ROOM' )
-def pvp_page_node( data ):
-    temp = data[ "room_id" ]
+def pvp_page_join_node( data ):
+    room_list = rooms( request.sid )
+
+    for r in room_list:
+        leave_room( r, sid=request.sid )
+
     join_room( data[ "room_id" ] )
-    emit('room_count', {'count': len( socketio.server.manager.rooms[ '/' ][ "test_room" ] )}, to=data[ "room_id" ])
+    
+    emit('JOIN ROOM POST', { 'sids': list( socketio.server.manager.rooms['/'][ data[ "room_id" ] ].keys() ) }, to=data[ "room_id" ] )
     return json.dumps( { "status": "success" } )
 
-@socketio.on( 'test_reload' )
-def pvp_page_node_test( data ):
-    emit('test_reload_out', {}, to="test_room")
+@socketio.on( 'HIDDEN JOIN ROOM' )
+def pvp_page_join_node( data ):
+    room_list = rooms( request.sid )
+
+    for r in room_list:
+        leave_room( r, sid=request.sid )
+
+    join_room( data[ "room_id" ] )
+    
+    return json.dumps( { "status": "success" } )
+
+
+@socketio.on( 'LEAVE ROOM' )
+def pvp_page_leave_node( data ):
+    leave_room( data[ "room_id" ], sid=request.sid )
+
+    if data[ "room_id" ] not in socketio.server.manager.rooms['/']:
+        emit('JOIN ROOM POST', { 'sids': [] }, to=data[ "room_id" ], skip_sid=request.sid )
+    
+    else:
+        emit('JOIN ROOM POST', { 'sids': list( socketio.server.manager.rooms['/'][ data[ "room_id" ] ].keys() ) }, to=data[ "room_id" ], skip_sid=request.sid )
+
+    return json.dumps( { "status": "success" } )
+
+@socketio.on( 'START PARTY' )
+def pvp_page_start_node( data ):
+    @clear_from_session_wrapper
+    def clear_from_sessions():
+        return []
+    
+    clear_from_sessions()
+
+    session[ "question_id" ] = data[ "question_id" ]
+    should_propagate = data[ "should_propagate" ]
+
+    if should_propagate:
+        emit( 'START PARTY POST', { 'question_id': data[ "question_id" ] }, to=data[ "room_id" ], skip_sid=request.sid )
+
     return json.dumps( { "status": "success" } )
 
 ###############################################################################
@@ -306,4 +354,4 @@ def clear_from_session_wrapper( func ):
         return wrapper
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True,)
+    socketio.run(app, debug=True, host='0.0.0.0')

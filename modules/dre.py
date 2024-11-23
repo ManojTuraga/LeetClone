@@ -40,6 +40,13 @@ Known Faults
 from modules import utilities as util
 from modules import questions as q
 
+import threading
+
+###############################################################################
+# Variables
+###############################################################################
+lock = threading.Lock()
+
 ###############################################################################
 # Types
 ###############################################################################
@@ -65,7 +72,8 @@ class DRE:
         """
         # Get the server-side context from the data base for the current
         # question
-        context = self._questions.get_question_info_for_server( question_id, lang )
+        with lock:
+            context = self._questions.get_question_info_for_server( question_id, lang )
 
         # Run the code and return the list of pass-fail test cases
         return util.execute_code( code, context, lang )
