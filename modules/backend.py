@@ -49,8 +49,8 @@ import json
 
 # Values used for setting up a connection to the database.
 DATABASE = "leetclone_db"
-USER = "postgres" #os.environ.get("LEETCLONE_USERNAME")
-PASSWORD = "Need4Speeds." #os.environ.get("LEETCLONE_PASSWORD")
+USER = os.environ.get("LEETCLONE_USERNAME")
+PASSWORD = os.environ.get("LEETCLONE_PASSWORD")
 HOST = "localhost"
 PORT = "5432"
 

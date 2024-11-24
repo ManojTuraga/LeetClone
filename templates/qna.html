@@ -23,6 +23,10 @@ Sources: W3Schools, Flask Documentation:
 
 <!-- Add the prompt box, tests, and the code editor to the base page -->
 {% block main %}
+<div id="popup" class="popup">
+    <div class="loader">
+    </div> 
+</div>
 <div class="container">
     <div class="prompt-and-test-cases">
         <div class="prompt-box" id="promptBox">
@@ -39,6 +43,7 @@ Sources: W3Schools, Flask Documentation:
                         <span style="color:red;">{{ question_info[ "test_cases" ][ i ] }} : Fail</span> <br>
                     {% endif %}
                 {% endfor %}
+                <br>
                 <span style="color:darkred;">TC: {{tc_data}}</span> <br>
                 <span style="color:darkred;">Runtime: {{run_time}}</spban> <br>
             </p>

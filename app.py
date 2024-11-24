@@ -37,7 +37,7 @@ Invariants:
 Known Faults:
     Some callbacks are currently not implemented
 
-Sources: W3Schools, Flask Documentation:
+Sources: W3Schools, Flask Documentation, SocketIO Documentation
 '''
 
 # NOTE: We acknowledge that a lot of the knowledge surrounding Flask and Web
@@ -99,9 +99,6 @@ list_of_base_pages = \
       ( "pvp", "Player vs. Player" ) ]
 
 
-sample_room = []
-
-
 ###############################################################################
 # Callbacks
 ###############################################################################
@@ -120,6 +117,10 @@ def home():
                  home page is the main page of the application and can be indexed
                  with either the /home or the / base page
     """
+    # Initialze every session with something just to make sure
+    # that the sessions are initalized
+    session[ "dummy" ] = "none"
+
     # Render the home.html with the links that the
     # page should support and indicate that the
     # home page is the active page.
@@ -207,7 +208,6 @@ def qna():
 
 @app.route( '/questions', methods=[ "GET", "POST" ] )
 def questions():
-
     """
     Function: Questions
 
@@ -224,16 +224,14 @@ def questions():
                             active_page="questions",
                             all_questions=all_questions )
 
-# THE FOLLOWING SECTION OF CODE IS A TODO
-# WE PROVIDE THIS FUNCTIONS FOR FUTURE USE BUT
-# THEY ARE NOT CURRENTLY BEING USED OTHER THAN
-# AS PLACEHOLDERS FOR FUTURE IMPLEMENTATIONS
-@socketio.on( 'test' )
-def handle_redirect( data ):
-    return redirect( url_for( "home" ) )
-
 @app.route( '/pvp' )
 def pvp():
+    """
+    Function: PVP
+
+    Description: This is the callback for the PVP page, which allws the users
+                 to create and join rooms for multiplayer solving
+    """
     all_questions = qs.get_all_questions_for_popup()
 
     return render_template( 'pvp.html', 
@@ -273,6 +271,15 @@ def questions_page_lang_switch_node( data ):
 
 @socketio.on( 'CODE SUBMIT' )
 def questions_page_code_submit_node( data ):
+    """
+    Function: Code submit callback
+    
+    Description: This function is the callback for when the code
+                 is submitted. The code is passed on a separate
+                 channel and the result of the test cases, time
+                 complexity, and runtime are computed and sent
+                 back to the user
+    """
     # Fetch the question information corresponding to the question
     # ID and the language of choice from  the user and assign the
     # question information to cookies
@@ -337,6 +344,12 @@ def pvp_page_leave_node( data ):
 
 @socketio.on( 'START PARTY' )
 def pvp_page_start_node( data ):
+    """
+    Function: Start Party Callback
+    
+    Description: This function is the callback for when the start party
+                 option is selected
+    """
     @clear_from_session_wrapper
     def clear_from_sessions():
         return []
@@ -355,10 +368,19 @@ def pvp_page_start_node( data ):
 # Helper Procedures
 ###############################################################################
 def clear_from_session_wrapper( func ):
+        """
+        This function is a decorator that will clear every relevant session
+        variable except for the strings that are passed in. See usage of
+        decorator to understand
+        """
         def wrapper( *args, **kwargs ):
+            # First obtain the session variables that should
+            # be kept
             to_keep = func( *args, **kwargs )
 
-            for key in [ "lang", "test_cases", "question_info", "question_id", "test_results", "start_time", "end_time" ]:
+            # For every relevant session key, pop the key from the session
+            # structure if it's not indicated that it should stay
+            for key in [ "lang", "test_cases", "question_info", "question_id", "test_results", "start_time", "end_time", "tc_data", "run_time" ]:
                 if key not in to_keep and key in session:
                     session.pop( key )
 

@@ -41,7 +41,7 @@ to communciate with the game room
 **************************************/
 var socket = io( { closeOnBeforeunload: false } );
 
-socket.on( "TEST MULTIPLAYER", () => { alert( "You are bad at programming lol" ) } );
+socket.on( "TEST MULTIPLAYER", () => { alert( "A player in your room has finished" ) } );
 
 /**************************************
 Create a callback on the runButton on
@@ -60,8 +60,8 @@ document.getElementById('runButton').addEventListener( 'click', () =>
         {
         submit[ "room_id" ] = sessionStorage.getItem( "room_id" );
         }
-
-    socket.emit( 'CODE SUBMIT', submit, (response) => { console.log(response);  socket.close(); location.reload() } );
+    document.getElementById('popup').style.display = 'flex'
+    socket.emit( 'CODE SUBMIT', submit, (response) => { console.log(response);  document.getElementById('popup').style.display = 'none'; socket.close(); location.reload() } );
     } );
 
 /**************************************
