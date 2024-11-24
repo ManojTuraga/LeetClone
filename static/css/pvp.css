@@ -7,8 +7,11 @@ Contributors: Clare Channel
 Description:
     This Module contains the styling for the pvp page.
     
-Sources: W3Schools, GeekforGeeks
+Sources: W3Schools, GeekforGeeks, ChatGPT
 */
+
+/* NOTE: Team 42 recognizes that parts of this code were
+         assisted with the use of ChatGPT */
 
 @import url("imports/base.css");
 /* Styling for the dropdown container - W3Schools */ 
@@ -47,112 +50,118 @@ Sources: W3Schools, GeekforGeeks
     display: block;
     }
 
+/* Styling for the main container */
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
 
-  .container {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-  }
-  
-  /* Left side styles */
-  .left-side {
-    width: 45%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #3f3f3f;
-    color: white;
-  }
-  
-  .left-side h2,
-  .left-side label,
-  .left-side button {
-    color: white; 
-  }
-  
-  .left-side h2 {
-    margin-top: 0;
-  }
-  
-  .left-side input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #000; 
-    color: white; 
-  }
-  
-  .left-side h2, .left-side label {
-    background-color: #3f3f3f; 
-    padding: 5px;
-    border-radius: 4px;
-  }
-  
-  .left-side button {
-    width: 100%;
-    background-color: #f44336; 
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 8px; 
-    font-size: 16px;
-    margin-top: 10px;
-  }
-  
-  .left-side button:hover {
-    background-color: #d32f2f;
-  }
-  
-  /* Right side styles */
-  .right-side {
-    width: 45%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #3f3f3f;
-  }
-  
-  /* Waiting room styles */
-  .waiting-room {
-    margin-top: 20px;
-    border: 1px solid #000000;
-    padding: 10px;
-    height: 200px;
-    overflow-y: scroll;
-    color: white;
-    background-color: #000000;
-    border-radius: 8px;
-  }
-  
-  .waiting-room ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .waiting-room li {
-    padding: 5px;
-    background-color: #ffffff;
-    margin-bottom: 5px;
-    border-radius: 4px;
-  }
-  
-  /* General button style */
-  .button {
-    width: 100%;
-    background-color: #f44336; 
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 8px; 
-    font-size: 16px;
-    margin-top: 10px;
-  }
-  
-  .button:hover {
-    background-color: #d32f2f;
-  }
+/* Left side styles */
+.left-side {
+  width: 45%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #3f3f3f;
+  color: white;
+}
+
+/* Colors for left side */
+.left-side h2,
+.left-side label,
+.left-side button {
+  color: white; 
+}
+
+/* Margins for left side headers */
+.left-side h2 {
+  margin-top: 0;
+}
+
+/* Left side input styling */
+.left-side input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #000; 
+  color: white; 
+}
+
+/* Left Side border styling */
+.left-side h2, .left-side label {
+  background-color: #3f3f3f; 
+  padding: 5px;
+  border-radius: 4px;
+}
+
+/* Left Side button styling */
+.left-side button {
+  width: 100%;
+  background-color: #f44336; 
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px; 
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* Left side button hover styling */
+.left-side button:hover {
+  background-color: #d32f2f;
+}
+
+/* Right side styles */
+.right-side {
+  width: 45%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #3f3f3f;
+}
+
+/* Waiting room styles */
+.waiting-room {
+  margin-top: 20px;
+  border: 1px solid #000000;
+  padding: 10px;
+  height: 200px;
+  overflow-y: scroll;
+  color: white;
+  background-color: #000000;
+  border-radius: 8px;
+}
+
+.waiting-room ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.waiting-room li {
+  padding: 5px;
+  background-color: #ffffff;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+/* General button style */
+.button {
+  width: 100%;
+  background-color: #f44336; 
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px; 
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: #d32f2f;
+}
