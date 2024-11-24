@@ -1,3 +1,16 @@
+<!--
+Module: pvp.html
+Creation Date: November 21th, 2024
+Author: Clare Channel
+Contributors: Clare Channel, Manoj Turaga
+
+Description:
+    This page is responsible for determine and handling players
+    Joining a muultiplayer room
+
+Sources: W3Schools, Flask Documentation:
+-->
+
 <!-- Import the base page -->
 {% extends "imports/base.html" %}
 
@@ -13,9 +26,14 @@
 <!-- Left Side: Join Party and Create Party -->
 <div class="left-side">
     <h2>Join Party</h2>
+    <!-- Input for the room code -->
     <label for="join-code">Enter Code:</label>
-    <input type="text" id="join-code" placeholder="Enter 6-digit code">
+    <input type="text" id="join-code" placeholder="Enter Room code">
+
+    <!-- Button for joining party -->
     <button class="button" id="join-button">Join Party</button>
+
+    <!-- Dropdown for selecting either hosting or joining -->
     <div class="dropdown">
         <button class="dropdown-button" id="player-type" >Host</button>
         <div class="dropdown-content">
@@ -23,6 +41,8 @@
             <p onclick="player_type_on_click( 'Join' )" >Join</p>
         </div>
     </div>
+
+    <!-- Dropdown for Selecting the question that the room will take -->
     <div class="dropdown">
         <button class="dropdown-button" id="question-button" value={{ list_of_questions[ 0 ][ 0 ] }}>{{ list_of_questions[ 0 ][ 1 ] }}</button>
         <div class="dropdown-content">
@@ -46,5 +66,6 @@
 {% endblock %}
 
 {% block scripts %}
+<!-- Import the scripting required for this page -->
 <script src="{{ url_for( 'static', filename='js/pvp_script.js' ) }}"></script>
 {% endblock %}

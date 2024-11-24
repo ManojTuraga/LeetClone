@@ -92,6 +92,8 @@ window.onload = () => {
         }
 }
 
+/* https://www.eddymens.com/blog/how-to-allow-the-use-of-tabs-in-a-textarea
+Basically this is logic to allows tabs to be inputted into a text area */
 document.getElementById('code').addEventListener("keydown", (e) => {
     if (e.key == "Tab") {
       e.preventDefault();
