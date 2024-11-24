@@ -2,7 +2,8 @@
 Module: app.py
 Creation Date: October 22th, 2024
 Author: Clare Channel
-Contributors: Clare Channel, Manoj Turaga
+Contributors: Clare Channel, Manoj Turaga, Henry Marshall, Ceres Botkin
+              Connor Forristal
 
 Description:
     This is the launching point to the application. LeetClone is a Leetcode
