@@ -11,10 +11,10 @@ Description:
     in compilation and/or execution
 
 Inputs:
-    None
+    The user inputted code
 
 Outputs:
-    None
+    Result of test cases and time complexity
 
 Preconditions:
     None
@@ -29,10 +29,10 @@ Side Effects:
     None
 
 Invariants:
-    None
+    The server must be set up on a linux or windows environment
 
 Known Faults
-    None
+    The DRE cannot detect malicious code
 '''
 ###############################################################################
 # Imports
@@ -45,6 +45,8 @@ import threading
 ###############################################################################
 # Variables
 ###############################################################################
+# Since this application can run on multiple threads
+# create a lock on accesses to the database
 lock = threading.Lock()
 
 ###############################################################################
