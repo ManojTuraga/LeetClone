@@ -122,14 +122,27 @@ def execute_code( code, context, lang ):
             test_inputs = test[ "input" ]
             test_output = test[ "output" ]
 
+            inputs = test_inputs.split( ' ' )
+            output = test_output.split( ' ' )
+
             # Attempt to execute the code with the test inputs. A success would entail
             # that the program returns 0. Otherwise, indicate that the test failed
             try:
                 if lang == PYTHON_LANG:
-                    subprocess.check_output( [ f"python3" ] + [ str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] + test_inputs.split( ' ' ) + test_output.split( ' ' ) )
+                    subprocess.check_output( [ f"python3" ] + 
+                                             [ str( BUILD_DIR ) + 
+                                             f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] + 
+                                             inputs + 
+                                             output + 
+                                             [ str( len( inputs ) ), str( len( output ) ) ] )
 
                 if lang == C_LANG:
-                    subprocess.check_output( [ "./" + str( BUILD_DIR ) + f"/{ filename }" ] + test_inputs.split( ' ' ) + test_output.split( ' ' ) )
+                    subprocess.check_output( [ "./" + 
+                                             str( BUILD_DIR ) + 
+                                             f"/{ filename }" ] + 
+                                             inputs + 
+                                             output + 
+                                             [ str( len( inputs ) ), str( len( output ) ) ] )
 
                 __result.append( True )
 
@@ -174,12 +187,23 @@ def execute_code( code, context, lang ):
         def _run_code(test_input_spec, test_output_spec):
             #behold my supreme levels of jank
             #sorry if someone has to go through and recomment this
+            input_spec = test_input_spec.split( ' ' )
+            output_spec = test_output_spec.split( ' ' )
             try:
                 if lang == PYTHON_LANG:
-                    subprocess.check_output( [ f"python3" ] + [ str( BUILD_DIR ) + f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] + test_input_spec.split( ' ' ) + test_output_spec.split( ' ' ) )
+                    subprocess.check_output( [ f"python3" ] + 
+                                             [ str( BUILD_DIR ) + 
+                                             f"/{ filename }{ LANGUAGE_MAP[ lang ][ FILE_EXT ] }" ] + 
+                                             input_spec + 
+                                             output_spec + 
+                                             [ str( len( input_spec ) ), str( len( output_spec ) ) ] )
 
                 if lang == C_LANG:
-                    subprocess.check_output( [ "./" + str( BUILD_DIR ) + f"/{ filename }" ] + test_input_spec.split( ' ' ) + test_output_spec.split( ' ' ) )
+                    subprocess.check_output( [ "./" + str( BUILD_DIR ) + 
+                                             f"/{ filename }" ] + 
+                                             input_spec + 
+                                             output_spec + 
+                                             [ str( len( input_spec ) ), str( len( output_spec ) ) ] )
 
             except subprocess.CalledProcessError as e:
                 # Allow sys.exit(1) specifically

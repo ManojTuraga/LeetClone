@@ -5,14 +5,14 @@
     "prompt": { "title": "2Adder", "text": "Create a function that adds two numbers" },
     "test_cases": { "1":{ "inputs" : "1 1", "output": "2" }, "2":{ "inputs" : "-1 3", "output": "2" } },
     "code":{ "python": { "starter_code": "def adder(a, b):\n\t#write code here", "context_code": "import sys\ndef main():\n\tsys.exit( 0 if adder( int(sys.argv[1]), int(sys.argv[2])) == int(sys.argv[3]) else 1 )" },
-             "c": { "starter_code": "int adder(int a, int b){\n\t//enter code here\n}", "context_code": "#include <stdlib.h>\nint main(int argc, char *argv[]){\n\tif( adder( atoi( argv[ 1 ] ), atoi( argv[ 2 ] ) ) == atoi( argv[ 3 ] ) ){return 0;}else{return 1;}\n}" } }
+             "c": { "starter_code": "int adder(int a, int b){\n\t//enter code here\n}", "context_code": "#include <stdlib.h>\nint adder(int a, int b);\nint main(int argc, char *argv[]){\n\tif( adder( atoi( argv[ 1 ] ), atoi( argv[ 2 ] ) ) == atoi( argv[ 3 ] ) ){return 0;}else{return 1;}\n}" } }
     },
     {
     "qid" : 2,
     "prompt": { "title": "2Subber", "text": "Create a function that subtracts two numbers" },
     "test_cases": { "1":{ "inputs" : "1 1", "output": "0" }, "2":{ "inputs" : "-1 3", "output": "-4" } },
     "code":{ "python": { "starter_code": "def subber(a, b):\n\t#write code here", "context_code": "import sys\ndef main():\n\tsys.exit( 0 if subber( int(sys.argv[1]), int(sys.argv[2])) == int(sys.argv[3]) else 1 )" },
-             "c": { "starter_code": "int subber(int a, int b){\n\t//enter code here\n}", "context_code": "#include <stdlib.h>\nint main(int argc, char *argv[]){\n\tif( subber( atoi( argv[ 1 ] ), atoi( argv[ 2 ] ) ) == atoi( argv[ 3 ] ) ){return 0;}else{return 1;}\n}" } }
+             "c": { "starter_code": "int subber(int a, int b){\n\t//enter code here\n}", "context_code": "#include <stdlib.h>\nint subber(int a, int b);\nint main(int argc, char *argv[]){\n\tif( subber( atoi( argv[ 1 ] ), atoi( argv[ 2 ] ) ) == atoi( argv[ 3 ] ) ){return 0;}else{return 1;}\n}" } }
     }
     ]
 }
