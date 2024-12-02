@@ -1,0 +1,50 @@
+@font-face {
+  font-family: "Geist-Bold";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Bold.otf");
+}
+@font-face {
+  font-family: "Geist-Regular";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Regular.otf");
+}
+@font-face {
+  font-family: "Geist-Light";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Light.otf");
+}
+@font-face {
+  font-family: "GeistMono-SemiBold";
+  src: url("../font/GeistMono-1.4.01/GeistMono-1.4.01/otf/GeistMono-SemiBold.otf");
+}
+a {
+  text-decoration: none;
+}
+
+.question-title {
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+  font-size: 2rem;
+  border: 0.2rem solid #48CFCB;
+  box-shadow: inset 0 0 0.5rem 0.1rem #48CFCB, 0 0 0.5rem 0.1rem #48CFCB;
+  background-color: #229799;
+  border-radius: 0.2rem 0.2rem 0rem 0rem;
+  border-bottom: none;
+  transition: 0.5s;
+}
+.question-title:hover {
+  background-color: #48CFCB;
+  color: #F5F5F5;
+  text-shadow: 0 0 0.5rem #F5F5F5;
+}
+
+.question-box {
+  min-height: 200px;
+  color: #F5F5F5;
+  border: 0.3rem solid #48CFCB;
+  box-shadow: 0 0 0.5rem 0.1rem #48CFCB, inset 0 0 0.5rem 0.1rem #48CFCB;
+  background-color: #424242;
+  border-radius: 0.2rem;
+  font-family: "Geist-Regular";
+  font-size: 1em;
+  border-radius: 0rem 0rem 0.2rem 0.2rem;
+}
+
+/*# sourceMappingURL=questions.css.map */

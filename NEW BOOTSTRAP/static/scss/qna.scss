@@ -1,0 +1,71 @@
+@use "baseScss/global";
+@use "baseScss/mixins";
+
+.text-box
+{
+    @include mixins.text-boxes();
+}
+
+.box-title
+{
+    @include mixins.header-fonts();
+}
+
+.lang-select
+{
+    background-color: global.$bgcolor;
+    color: global.$textcolor;
+    font-family: global.$buttonfont;
+    border-width: 0.15em;
+    border-color: global.$textcolor;
+
+    option
+    {
+        color: global.$textcolor;
+        font-family: global.$buttonfont;
+    }
+    
+}
+
+.code-buttons
+{
+    button 
+    {
+        font-family: global.$buttonfont;
+        color: global.$textcolor;
+
+        background-color: transparent;
+        border-color: global.$textcolor;
+        border-width: 0.15em;
+
+        &:hover 
+        {
+            color: global.$textcolor;
+            box-shadow: inset 0em 0em 1.5em 0em global.$textcolor;
+        }
+
+        &:active
+        {
+            background-color: global.$accentcolor2;
+            border-color: global.$accentcolor2;
+            color: global.$bgcolor;
+            box-shadow: none;
+        }
+
+        &:active:focus
+        {
+            background-color: global.$accentcolor2;
+            border-color: global.$accentcolor2;
+            color: global.$bgcolor;
+            box-shadow: none;
+        }
+
+        &:focus
+        {
+            background-color: global.$accentcolor2;
+            border-color: global.$accentcolor2;
+            color: global.$bgcolor;
+            box-shadow: none;
+        }
+    } 
+}
