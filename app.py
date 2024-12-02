@@ -49,10 +49,10 @@ Sources: W3Schools, Flask Documentation, SocketIO Documentation
 ###############################################################################
 # Imports
 ###############################################################################
-import pathlib
-import os
 import time
 import json
+import shutil
+import os
 
 # From the Flask module, import the Flask app
 # class, the html template renderer, and the
@@ -104,6 +104,12 @@ list_of_base_pages = \
       ( "questions", "Questions" ), 
       ( "pvp", "Player vs. Player" ) ]
 
+# Note the location of the source and destination
+# targets for the build directories. This will copy
+# over the libraries that we create for the starter
+# code
+SOURCE_LIB_DIR = "lib/"
+DEST_LIB_DIR = "build/"
 
 ###############################################################################
 # Callbacks
@@ -447,6 +453,10 @@ def clear_from_session_wrapper( func ):
                     session.pop( key )
 
         return wrapper
+
+# Copy the contents of the lib into the build 
+# directory
+shutil.copytree( SOURCE_LIB_DIR, DEST_LIB_DIR, dirs_exist_ok=True )
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0')

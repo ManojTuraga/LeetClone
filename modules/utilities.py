@@ -17,6 +17,7 @@ import subprocess
 import random
 import string
 import os
+
 from modules import stats
 
 
@@ -238,8 +239,10 @@ def execute_code( code, context, lang ):
         # as a result of trying to execute the code
         if os.name == 'nt':  # Windows
             subprocess.call(["del", str(BUILD_DIR) + f"\\{filename}{LANGUAGE_MAP[lang][FILE_EXT]}"], shell=True)
+            subprocess.call(["del", str(BUILD_DIR) + f"\\{filename}"], shell=True)
         else:  # Unix/Linux
             subprocess.call(["rm", str(BUILD_DIR) + f"/{filename}{LANGUAGE_MAP[lang][FILE_EXT]}"])
+            subprocess.call(["rm", str(BUILD_DIR) + f"/{filename}"])
 
     return __result, complexity, time_baseline
 
