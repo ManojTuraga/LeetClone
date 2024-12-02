@@ -1,0 +1,97 @@
+/*
+Utilized css from w3schools
+https://www.w3schools.com/howto/howto_js_collapse_sidebar.asp
+
+*/
+
+@use "global";
+@use "mixins";
+
+
+html 
+{
+    margin: 0px;
+    height: 100%;
+}
+
+body
+{
+    background-color: global.$bgcolor;
+    height: 100%;
+}
+
+.header-btns 
+{
+    button 
+    {
+        font-family: global.$buttonfont;
+        color: global.$textcolor;
+
+        @include mixins.btns-clr()
+    }
+}
+
+// from w3schools
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: global.$accentcolor1;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 0px;
+
+    a 
+    {
+        font-family: global.$buttonfont;
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: global.$textcolor;
+        display: block;
+        transition: 0.3s;
+
+        &:hover
+        {
+            color: global.$accentcolor2;
+        }
+    }
+}
+
+.base-div
+{
+    transition: margin-left .5s;
+}
+
+#header-bar 
+{
+    font-family: global.$regularfont;
+    background-color: global.$scolor;
+    color: global.$textcolor;
+    z-index: 1;
+    width: 100%;
+    
+    a 
+    {
+        color: global.$textcolor;
+    }
+}
+
+#leetclone-title 
+{
+    transition: margin-left .5s;
+
+    font: 
+    {
+        family: global.$boldfont;
+        size: 2.4rem;
+    }
+}
+
+#main-cols
+{
+    transition: margin-left .5s;
+}

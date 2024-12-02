@@ -1,0 +1,40 @@
+////////////////////////////
+// VARIABLES 
+////////////////////////////
+
+// color scheme
+$bgcolor: #525252;
+$scolor: #424242;
+$accentcolor1: #229799;
+$accentcolor2: #48CFCB;
+$textcolor: #F5F5F5;
+
+// fonts
+$regularfont: "Geist-Regular";
+$boldfont: "Geist-Bold";
+$lightfont: "Geist-Light";
+$buttonfont: "GeistMono-SemiBold";
+
+// Geist Bold Font
+@font-face {
+    font-family: "Geist-Bold";
+    src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Bold.otf")
+}
+
+// Geist Regular Font
+@font-face {
+    font-family: "Geist-Regular";
+    src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Regular.otf")
+}
+
+// Geist Light Font
+@font-face {
+    font-family: "Geist-Light";
+    src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Light.otf")
+}
+
+// Geist Mono SemiBold Font
+@font-face {
+    font-family: "GeistMono-SemiBold";
+    src: url("../font/GeistMono-1.4.01/GeistMono-1.4.01/otf/GeistMono-SemiBold.otf")
+}

@@ -1,0 +1,59 @@
+@use "global";
+
+@mixin header-fonts
+{
+    color: global.$textcolor;
+
+    font: 
+    {
+        family: global.$buttonfont;
+        size: 2rem;
+    }
+}
+
+@mixin text-boxes
+{
+    min-height: 200px;
+    color: global.$textcolor; 
+    border: 0.3rem solid global.$accentcolor2;
+    box-shadow: 0 0 0.5rem 0.1rem global.$accentcolor2,
+                inset 0 0 0.5rem 0.1rem global.$accentcolor2;
+    background-color: global.$scolor;
+    border-radius: 0.2rem;
+    
+    font:
+    {
+        family: global.$regularfont;
+        size: 1em;
+    }
+}
+
+@mixin btns-clr
+{
+    background-color: global.$accentcolor1;
+    border-color: global.$accentcolor1;
+
+        &:hover 
+        {
+            background-color: global.$accentcolor2;
+            border-color: global.$accentcolor2;
+        }
+
+        &:active
+        {
+            background-color: global.$accentcolor2;
+            border-color: global.$accentcolor2;
+        }
+
+        &:active:focus
+        {
+            background-color: global.$accentcolor2;
+            border-color: global.$accentcolor2;
+        }
+
+        &:focus
+        {
+            background-color: global.$accentcolor2;
+            border-color: global.$accentcolor2;
+        }
+}

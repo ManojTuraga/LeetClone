@@ -1,0 +1,76 @@
+@font-face {
+  font-family: "Geist-Bold";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Bold.otf");
+}
+@font-face {
+  font-family: "Geist-Regular";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Regular.otf");
+}
+@font-face {
+  font-family: "Geist-Light";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Light.otf");
+}
+@font-face {
+  font-family: "GeistMono-SemiBold";
+  src: url("../font/GeistMono-1.4.01/GeistMono-1.4.01/otf/GeistMono-SemiBold.otf");
+}
+.text-box {
+  min-height: 200px;
+  color: #F5F5F5;
+  border: 0.3rem solid #48CFCB;
+  box-shadow: 0 0 0.5rem 0.1rem #48CFCB, inset 0 0 0.5rem 0.1rem #48CFCB;
+  background-color: #424242;
+  border-radius: 0.2rem;
+  font-family: "Geist-Regular";
+  font-size: 1em;
+}
+
+.box-title {
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+  font-size: 2rem;
+}
+
+.lang-select {
+  background-color: #525252;
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+  border-width: 0.15em;
+  border-color: #F5F5F5;
+}
+.lang-select option {
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+}
+
+.code-buttons button {
+  font-family: "GeistMono-SemiBold";
+  color: #F5F5F5;
+  background-color: transparent;
+  border-color: #F5F5F5;
+  border-width: 0.15em;
+}
+.code-buttons button:hover {
+  color: #F5F5F5;
+  box-shadow: inset 0em 0em 1.5em 0em #F5F5F5;
+}
+.code-buttons button:active {
+  background-color: #48CFCB;
+  border-color: #48CFCB;
+  color: #525252;
+  box-shadow: none;
+}
+.code-buttons button:active:focus {
+  background-color: #48CFCB;
+  border-color: #48CFCB;
+  color: #525252;
+  box-shadow: none;
+}
+.code-buttons button:focus {
+  background-color: #48CFCB;
+  border-color: #48CFCB;
+  color: #525252;
+  box-shadow: none;
+}
+
+/*# sourceMappingURL=qna.css.map */

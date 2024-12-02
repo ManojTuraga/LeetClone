@@ -1,0 +1,34 @@
+@use "baseScss/global";
+@use "baseScss/mixins";
+
+#header-bar 
+{
+    position: absolute;
+}
+
+#particle-canvas
+{
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+
+#question-btn
+{
+    font-family: global.$boldfont;
+    font-size: 2em;
+    color: global.$textcolor;
+    width: 6em;
+    height: 3em;
+    border-radius: 0.5em;
+    box-shadow: 0em 0em 1em 0em global.$accentcolor2;
+    border: none;
+
+    &:hover
+    {
+        box-shadow: 0em 0em 1em 0.4em global.$accentcolor2,  
+    }
+
+    @include mixins.btns-clr;
+}
