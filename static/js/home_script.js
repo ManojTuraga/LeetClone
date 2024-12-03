@@ -36,15 +36,6 @@ Sources: W3Schools
 ******************************************************************************/
 
 /**************************************
-Shows the start button after 17 seconds
-**************************************/
-setTimeout(() => {
-    document.getElementById('start-btn').style.display = 'block';
-    document.getElementById('start-btn').style.animation = 'fadeInAnimation ease 3s';
-}, 17000);
-
-
-/**************************************
 Adds an event listener so when the button 
 is clicked, it will send the user to 
 another page.

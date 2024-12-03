@@ -41,18 +41,18 @@ to communciate with the game room
 **************************************/
 var socket = io( { closeOnBeforeunload: false } );
 
-socket.on( "TEST MULTIPLAYER", () => { alert( "A player in your room has finished" ) } );
+socket.on( "TEST MULTIPLAYER", ( response ) => { alert( "You got #" + response[ "position" ] + "!" ); window.location="/home" } );
 
 /**************************************
 Create a callback on the runButton on
 the QNA page
 **************************************/
-document.getElementById('runButton').addEventListener( 'click', () => 
+document.getElementById("run-code").addEventListener( 'click', () => 
     {
     /**************************************
     Get the code that was in the text area
-  * *************************************/
-    const code = document.getElementById('code').value;
+    *************************************/
+    const code = document.getElementById('code-box').innerText;
     
     var submit = { code: code };
 
@@ -68,14 +68,10 @@ document.getElementById('runButton').addEventListener( 'click', () =>
 Create a callback for when the language
 is selected on the language selector
 **************************************/
-function lang_vals_on_click( lang_str )
-    {
-    const lang_button = document.getElementById( 'lang-button' );
-    lang_button.textContent = lang_str;
-    lang_button.innerText = lang_str;
-
-    socket.emit( 'LANGUAGE SWITCH', { lang: lang_str }, (response) => { console.log(response);  socket.close(); location.reload() } );
-    }
+document.getElementById( "lang-button" ).addEventListener( 'change', () => {
+    var element = document.getElementById( "lang-button" );
+    socket.emit( 'LANGUAGE SWITCH', { lang: element.value }, (response) => { console.log(response);  socket.close(); location.reload() } );
+} );
 
 /**************************************
 Textareas have this funny case where
@@ -85,7 +81,6 @@ make sure to update the text area with
 the correct value
 **************************************/
 window.onload = () => {
-    document.getElementById('code').value = document.getElementById('code').defaultValue;
     if( sessionStorage.getItem( "room_id" ) != null )
         {
         socket.emit( 'HIDDEN JOIN ROOM', { room_id: sessionStorage.getItem( "room_id" ) }, ( response ) => { console.log( response ) } );
@@ -94,15 +89,27 @@ window.onload = () => {
 
 /* https://www.eddymens.com/blog/how-to-allow-the-use-of-tabs-in-a-textarea
 Basically this is logic to allows tabs to be inputted into a text area */
-document.getElementById('code').addEventListener("keydown", (e) => {
+document.getElementById('code-box').addEventListener("keydown", (e) => {
     if (e.key == "Tab") {
-      e.preventDefault();
-      const textArea = e.currentTarget;
-      textArea.setRangeText(
-        "\t",
-        textArea.selectionStart,
-        textArea.selectionEnd,
-        "end"
-      );
+        e.preventDefault();
+        const selection = window.getSelection();
+        const range = selection.getRangeAt(0);
+        const tabNode = document.createTextNode('\t');
+        range.insertNode(tabNode);
+        range.setStartAfter(tabNode);
+        range.setEndAfter(tabNode);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+    if (e.key == "Enter") {
+        e.preventDefault();
+        const selection = window.getSelection();
+        const range = selection.getRangeAt(0);
+        const tabNode = document.createTextNode('\n'); // 4 non-breaking spaces
+        range.insertNode(tabNode);
+        range.setStartAfter(tabNode);
+        range.setEndAfter(tabNode);
+        selection.removeAllRanges();
+        selection.addRange(range);
     }
   });

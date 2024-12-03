@@ -13,62 +13,94 @@ Sources: W3Schools, Flask Documentation:
 -->
 
 <!-- Import the base page -->
-{% extends "imports/base.html" %}
+{% extends "baseTemplates/base.html" %}
 
-<!-- Add the title of the page and any CSS styling to the base page -->
+
 {% block head %}
-<title>Code Executor</title>
-<link rel="stylesheet" href="{{ url_for( 'static', filename='css/qna_style.css' ) }}">
+    <link href="{{ url_for( 'static', filename='css/qna.css' ) }}" rel="stylesheet">   
 {% endblock %}
 
-<!-- Add the prompt box, tests, and the code editor to the base page -->
-{% block main %}
-<div id="popup" class="popup">
-    <div class="loader">
-    </div> 
-</div>
-<div class="container">
-    <div class="prompt-and-test-cases">
-        <div class="prompt-box" id="promptBox">
-            <h2>Prompt</h2>
-            <p id="promptText">{{ question_info[ "prompt" ] }}</p>
-        </div>
-        <div class="test">
-            <h2>Test Cases and Timing</h2>
-            <p id="test-cases">
-                {% for i in range( num_of_tests ) %}
-                    {% if test_results[ i ] %}
-                        <span style="color:green;">{{ question_info[ "test_cases" ][ i ] }} : Pass</span> <br>
-                    {% else %}
-                        <span style="color:red;">{{ question_info[ "test_cases" ][ i ] }} : Fail</span> <br>
-                    {% endif %}
-                {% endfor %}
-                <br>
-                <span style="color:darkred;">TC: {{tc_data}}</span> <br>
-                <span style="color:darkred;">Runtime: {{run_time}}</spban> <br>
-            </p>
-        </div>
+
+{% block title %}
+Code Executor
+{% endblock %}
+
+
+{% block content %}
+    <div id="popup" class="popup">
+        <div class="loader">
+        </div> 
     </div>
-    <div class="editor-and-config">
-        <div class="select-and-submit">
-        <button id="runButton">Run Code</button>
-        <div class="dropdown">
-            <button class="dropdown-button" id="lang-button">{{ lang }}</button>
-            <div class="dropdown-content">
-                {% for lang in supported_langs %}
-                <p onclick="lang_vals_on_click( '{{ lang }}' )" >{{ lang }}</p>
-                {% endfor %}
+    <div class="row flex-grow-1 g-0" id="main-cols">
+        <div class="col-6 p-4 question-container">
+
+            <!-- PROMPT CONTAINER -->
+            <div class="row flex-column h-50 g-0 p-3" id="prompt-row">
+                <div class="col-12 pb-2 box-title" id="prompt-title">
+                    <span>Prompt</span>
+                </div>
+                <div class="col-12 flex-grow-1 text-box" id="prompt-box">
+                    <div class="p-3 h-100" id="prompt-text">
+                        {{ question_info[ "prompt" ] }}
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <!-- TEST CONTAINER -->
+            <div class="row flex-column h-50 g-0 p-3" id="test-row">
+                <div class="col-12 pb-2 box-title" id="test-title">
+                    <span>Test</span>
+                </div>
+                <div class="col-12 flex-grow-1 text-box" id="test-box">
+                    <div class="p-3 h-100" id="test-text">
+                        {% for i in range( num_of_tests ) %}
+                            {% if test_results[ i ] %}
+                                <span style="color:green;">{{ question_info[ "test_cases" ][ i ] }} : Pass</span> <br>
+                            {% else %}
+                                <span style="color:red;">{{ question_info[ "test_cases" ][ i ] }} : Fail</span> <br>
+                            {% endif %}
+                        {% endfor %}
+                        <br>
+                        <span style="color:darkred;">TC: {{tc_data}}</span> <br>
+                        <span style="color:darkred;">Runtime: {{run_time}}</spban> <br>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="editor">
-            <textarea id="code" placeholder="Write your code here..." value="{{ question_info[ 'starter_code' ] }}" >{{ question_info[ "starter_code" ] }}</textarea>
-        </div>        
+
+        <div class="col-6 p-4 code-container">
+
+            <!-- CODE CONTAINER -->
+            <div class="row flex-column h-100 g-0 p-3" id="prompt-div">
+                
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <div class="col-6 col-lg-auto me-lg-auto justify-content-center pb-2 box-title" id="code-title">
+                        <span>Code</span>
+                    </div>
+                    
+                    <div class="row code-buttons pe-3">
+                      
+                        <button type="button" class="col-4 btn me-2" id="run-code">run</button>
+                    
+                        <select class="col form-select lang-select" id="lang-button">
+                            {% for lang in supported_langs %}
+                            <option value="{{ lang }}">{{ lang }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-12 flex-grow-1 text-box" id="code-box">
+                    <div class="p-3 h-100" id="code-text" contenteditable="true"><pre>{{ question_info[ "starter_code" ] }}</pre></div>
+                </div>
+            </div>
+        </div>
+        
     </div>
-</div>
+
 {% endblock %}
 
-<!-- Add the QNA callbacks to the base page -->
+
 {% block scripts %}
-<script src="{{ url_for( 'static', filename='js/qna_script.js' ) }}"></script>
+    <script src="{{ url_for( 'static', filename='js/qna.js' ) }}"></script>
 {% endblock %}

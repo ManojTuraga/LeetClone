@@ -1,77 +1,50 @@
-@import url("imports/base.css");
-/*
-Module: questions.css
-Creation Date: November 7th, 2024
-Author: Clare Channel
-Contributors: Manoj Turaga, Clare Channel, Connor Forristal
-
-Description:
-    This module contains all the styling for the Questions page
-    
-Sources: W3Schools, ChatGPT
-*/
-
-/* NOTE: Team 42 acknowledges that the source styling from this page
-is a combination of our knowledge + sourcing information from W3Schools
-and using ChatGPT*/
-
-/* Styling for the base questions container */
-.questions-container {
-    padding: 20px;
-    margin-top: 50px;
-    display: grid;
-    grid-template-columns: 50%;
-    gap: 15px; /* Spacing between question boxes */
+@font-face {
+  font-family: "Geist-Bold";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Bold.otf");
+}
+@font-face {
+  font-family: "Geist-Regular";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Regular.otf");
+}
+@font-face {
+  font-family: "Geist-Light";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Light.otf");
+}
+@font-face {
+  font-family: "GeistMono-SemiBold";
+  src: url("../font/GeistMono-1.4.01/GeistMono-1.4.01/otf/GeistMono-SemiBold.otf");
+}
+a {
+  text-decoration: none;
 }
 
-/* Styling for the questions list */
-#questions-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.question-title {
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+  font-size: 2rem;
+  border: 0.2rem solid #48CFCB;
+  box-shadow: inset 0 0 0.5rem 0.1rem #48CFCB, 0 0 0.5rem 0.1rem #48CFCB;
+  background-color: #229799;
+  border-radius: 0.2rem 0.2rem 0rem 0rem;
+  border-bottom: none;
+  transition: 0.5s;
+}
+.question-title:hover {
+  background-color: #48CFCB;
+  color: #F5F5F5;
+  text-shadow: 0 0 0.5rem #F5F5F5;
 }
 
-/* Styling for each item in the question list */
-.question-item {
-    position: relative;
-    background-color: #1a1a1a; /* Dark box color for each question */
-    color:red;
-    padding: 15px;
-    border: 1px solid red; /* Red border around each question box */
-    border-radius: 8px;
-    text-align: left; /* Align text to the left */
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-bottom: 15px; /* Space between question items */
+.question-box {
+  min-height: 200px;
+  color: #F5F5F5;
+  border: 0.3rem solid #48CFCB;
+  box-shadow: 0 0 0.5rem 0.1rem #48CFCB, inset 0 0 0.5rem 0.1rem #48CFCB;
+  background-color: #424242;
+  border-radius: 0.2rem;
+  font-family: "Geist-Regular";
+  font-size: 1em;
+  border-radius: 0rem 0rem 0.2rem 0.2rem;
 }
 
-/* Styling when hovwering over an item */
-.question-item:hover {
-    color: white;
-    background-color: #333333; /* Slightly lighter on hover */
-    border-color: white;
-}
-
-/* Styling for the tooltip */
-.question-popup {
-    display: none;
-    position: absolute;
-    top: 50%; /* Center vertically */
-    left: 100%; /* Position it to the right of the question */
-    transform: translateY(-50%); /* Adjust vertical alignment */
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    width: 50%;
-    z-index: 1000;
-    white-space: pre-wrap;
-    border: 1px solid white;
-    margin-left: 10px; /* Space between question and popup */
-}
-
-/* Styling for the tooltip when hovering */
-.question-item:hover .question-popup {
-    display: block; /* Show pop-up on hover */
-}
-
+/*# sourceMappingURL=questions.css.map */

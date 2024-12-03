@@ -73,45 +73,41 @@
   box-shadow: none;
 }
 
-#code-box {
-  min-height: 100px;
+/* The following are styles for the loading circle from chat gpt*/
+body {
+  font-family: Arial, sans-serif;
 }
 
-a {
-  text-decoration: none;
+.popup {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Transparent background */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.question-title {
-  color: #F5F5F5;
-  font-family: "GeistMono-SemiBold";
-  font-size: 2rem;
-  border: 0.2rem solid #48CFCB;
-  box-shadow: inset 0 0 0.5rem 0.1rem #48CFCB, 0 0 0.5rem 0.1rem #48CFCB;
-  background-color: #229799;
-  border-radius: 0.2rem 0.2rem 0rem 0rem;
-  border-bottom: none;
-  transition: 0.5s;
-}
-.question-title:hover {
-  background-color: #48CFCB;
-  color: #F5F5F5;
-  text-shadow: 0 0 0.5rem #F5F5F5;
+/* Make the circle red and complete a spin every second */
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #525252;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 1s linear infinite;
 }
 
-.question-box {
-  min-height: 200px;
-  color: #F5F5F5;
-  border: 0.3rem solid #48CFCB;
-  box-shadow: 0 0 0.5rem 0.1rem #48CFCB, inset 0 0 0.5rem 0.1rem #48CFCB;
-  background-color: #424242;
-  border-radius: 0.2rem;
-  font-family: "Geist-Regular";
-  font-size: 1em;
-  border-radius: 0rem 0rem 0.2rem 0.2rem;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-#question-scroll {
-  overflow: auto;
-}
-
-/*# sourceMappingURL=pvp.css.map */
+/*# sourceMappingURL=qna.css.map */

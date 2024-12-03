@@ -1,6 +1,7 @@
 @use "baseScss/global";
 @use "baseScss/mixins";
 
+
 .text-box
 {
     @include mixins.text-boxes();
@@ -67,5 +68,47 @@
             color: global.$bgcolor;
             box-shadow: none;
         }
-    } 
+    }
+}
+
+#code-box
+{
+    min-height: 100px;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+.question-title
+{
+    @include mixins.header-fonts();
+
+    border: 0.2rem solid global.$accentcolor2;
+    box-shadow: inset 0 0 0.5rem 0.1rem global.$accentcolor2,
+                0 0 0.5rem 0.1rem global.$accentcolor2;
+    background-color: global.$accentcolor1;
+    border-radius: 0.2rem 0.2rem 0rem 0rem;
+    border-bottom: none;
+    transition: 0.5s;
+
+    &:hover
+    {
+        background-color: global.$accentcolor2;
+        color: global.$textcolor;
+        text-shadow: 0 0 0.5rem global.$textcolor;
+    }
+}
+
+.question-box
+{
+    @include mixins.text-boxes();
+    border-radius: 0rem 0rem 0.2rem 0.2rem;
+    max-height: 800px;
+}
+
+#question-scroll
+{
+    overflow: auto;
 }

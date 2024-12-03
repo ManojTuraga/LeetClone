@@ -13,28 +13,39 @@ Sources: W3Schools, Flask Documentation:
 -->
 
 <!-- Import the base page -->
-{% extends "imports/base.html" %}
+{% extends "baseTemplates/base.html" %}
 
-<!-- Set the styling for this page -->
 {% block head %}
-<title>Questions</title>
-<link rel="stylesheet" href="{{ url_for( 'static', filename='css/questions.css' ) }}">
+    <link href="{{ url_for( 'static', filename='css/questions.css' ) }}" rel="stylesheet">
 {% endblock %}
 
-<!-- Populate the questions -->
-{% block main %}
-<div class="content">
-    <div class="questions-container">
-        <ul id="questions-list">
-            <!-- For every question in the database, initialize list element with the relevant info -->
-            {% for question in all_questions %}
-            <li onclick="gotoQuestion( '{{ question[ 0 ] }}' )" class="question-item">{{ question[ 1 ] }}<div class="question-popup">{{ question[ 2 ] }}</div></li>
-            {% endfor %}
-        </ul>
+{% block title %}
+    Questions
+{% endblock %}
+
+{% block content %}
+    <div class="row flex-grow-1 g-0" id="main-cols">
+        {% for question in all_questions %}
+        <div class="col-12 p-4 questions-container">
+
+            <!-- PROMPT CONTAINER -->
+            <div class="row flex-column g-0 p-3 question-row">
+                <a onclick="gotoQuestion( '{{ question[ 0 ] }}' )">
+                    <div class="col-12 pt-2 pb-2 ps-4 question-title">
+                        <span>{{ question[ 1 ] }}</span>
+                    </div>
+                </a>
+                <div class="col-12 flex-grow-1 question-box">
+                    <div class="p-3 ps-4 pe-4 h-100 question-text">
+                        {{ question[ 2 ] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-</div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for( 'static', filename='js/question_script.js' ) }}"></script>
+    <script src="{{ url_for( 'static', filename='js/questions_script.js' ) }}"></script>
 {% endblock %}

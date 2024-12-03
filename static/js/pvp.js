@@ -50,10 +50,7 @@ socket.on( 'JOIN ROOM POST', ( response ) => {
     const waitingRoomList = document.getElementById('waiting-room-list');
     waitingRoomList.innerHTML = '';
     response["sids"].forEach(player => {
-    const listItem = document.createElement('li');
-    listItem.style.color = "black";
-    listItem.textContent = player;
-    waitingRoomList.appendChild(listItem);
+    waitingRoomList.innerHTML += player + "<br>";
 } 
 )});
 
@@ -79,14 +76,9 @@ const links = [];
 aElements.forEach( ( element, index ) => {
     var link = element.getAttribute( "href" );
     links.push( link );
-    element.removeAttribute( "href" );
+    element.setAttribute( "href", "javascript:void(0)" );
 
-    element.addEventListener('click', () => {
-        if( element.id == "activepage" )
-            {
-            return;
-            }
-            
+    element.addEventListener('click', () => {            
         sessionStorage.setItem('linkClicked', true);
         sessionStorage.setItem( "link", links[ index ] );
         var id = sessionStorage.getItem( "room_id" );
@@ -98,7 +90,7 @@ aElements.forEach( ( element, index ) => {
             const waitingRoomList = document.getElementById('waiting-room-list');
             sessionStorage.removeItem( "room_id" );
             waitingRoomList.innerHTML = '';
-            document.getElementById('join-code').value = '';
+            document.getElementById('room-code').value = '';
             
             /* Tell the server to leave the room */
             socket.emit( 'LEAVE ROOM', { room_id: id }, ( response ) => { 
@@ -120,62 +112,36 @@ aElements.forEach( ( element, index ) => {
    the text of the button with the selected selection */
 function question_vals_on_click( question, value )
     {
-    const quest_button = document.getElementById( 'question-button' );
-    quest_button.textContent = question;
-    quest_button.innerText = question;
-    quest_button.value = value;
+    const active = document.getElementById( 'active-question' );
+    active.innerHTML = question;
+    active.innerText = question;
+    active.setAttribute( "value", value )
     }
 
-/* If the player type button is clicked, replace the contents of the
-    button with the selection and hide any elements that shouldn't
-    be displayed */
-function player_type_on_click( type )
-    {
-    const type_button = document.getElementById( 'player-type' );
-    const quest_button = document.getElementById( 'question-button' );
-    const start_button = document.getElementById( 'start-button' );
-    type_button.textContent = type;
-    type_button.innerText = type;
-    
-    /* Hide the question and start button if the player wants to 
-       join a room */
-    if( type == "Join" )
-        {
-        quest_button.style.display = "none";
-        start_button.style.display = "none";
-        }
-    else
-        {
-        quest_button.style.display = "block";
-        start_button.style.display = "block";
-        }
 
+document.getElementById('room-code').addEventListener("keydown", (e) => {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        var code = document.getElementById('room-code').value;
+        if( sessionStorage.getItem( "room_id" ) == code )
+            {
+            return;
+            }
+
+        /* Tell the server to join the room*/
+        socket.emit( 'JOIN ROOM', { room_id: code }, ( response ) => { console.log( response ) } );
+        sessionStorage.setItem( "room_id", code );
     }
-
-/* This function is a callback for when the join button is clicked */
-document.getElementById('join-button').addEventListener('click', () => {
-    const code = document.getElementById('join-code').value;
-    if( sessionStorage.getItem( "room_id" ) == code )
-        {
-        return;
-        }
-
-    /* Hide the button to configure the room */
-    const type_button = document.getElementById( 'player-type' );
-    const quest_button = document.getElementById( 'question-button' );
-    type_button.style.display = "none";
-    quest_button.style.display = "none";
-    
-    /* Tell the server to join the room*/
-    socket.emit( 'JOIN ROOM', { room_id: code }, ( response ) => { console.log( response ) } );
-    sessionStorage.setItem( "room_id", code );
-} );
+    });
 
 // Handle Start Party
 document.getElementById('start-button').addEventListener('click', () => {
-    const question = document.getElementById( 'question-button' ).getAttribute( 'value' );
+    const question = document.getElementById( 'active-question' ).getAttribute( 'value' );
     const room_id = sessionStorage.getItem( "room_id" );
-    socket.emit( 'START PARTY', { question_id: question, room_id: room_id, should_propagate: true }, ( response ) => { console.log( response ); window.location="/qna" } )
+    if( room_id != null )
+        {
+            socket.emit( 'START PARTY', { question_id: question, room_id: room_id, should_propagate: true }, ( response ) => { console.log( response ); window.location="/qna" } )
+        }
 });
 
 /**************************************
@@ -187,15 +153,11 @@ window.onload = () => {
         /* Basically, if a room already exists for this user, force them
            into the room and hide all the room configuration buttons */
         socket.emit( 'JOIN ROOM', { room_id: sessionStorage.getItem( "room_id" ) }, ( response ) => { console.log( response ) } );
-        document.getElementById('join-code').value = sessionStorage.getItem( "room_id" );
-        const type_button = document.getElementById( 'player-type' );
-        const quest_button = document.getElementById( 'question-button' );
-        type_button.style.display = "none";
-        quest_button.style.display = "none";
+        document.getElementById('room-code').value = sessionStorage.getItem( "room_id" );
         }
 };
 
-/* This is the callbakc for when the page is reloaded or
+/* This is the callback for when the page is reloaded or
    exited */
 window.onbeforeunload = () => {
     var cond1 = window.performance.getEntriesByType( 'navigation' )[0].type == 'reload';
@@ -206,7 +168,7 @@ window.onbeforeunload = () => {
         const waitingRoomList = document.getElementById('waiting-room-list');
         sessionStorage.removeItem( "room_id" );
         waitingRoomList.innerHTML = '';
-        document.getElementById('join-code').value = '';
+        document.getElementById('room-code').value = '';
         }
     sessionStorage.setItem( "linkClicked", false );
 

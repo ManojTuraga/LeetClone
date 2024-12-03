@@ -12,32 +12,40 @@ Description:
 Sources: W3Schools, Flask Documentation:
 -->
 
-<!-- Import the base page -->
-{% extends "imports/base.html" %}
-
-<!-- Add the title of the page and any CSS styling to the base page -->
+{% extends "baseTemplates/base.html" %}
 {% block head %}
-<title>LeetClone</title>
-<link rel="stylesheet" href="{{ url_for( 'static', filename='css/home_style.css' ) }}">
+    <link href="{{ url_for( 'static', filename='css/home.css' ) }}" rel="stylesheet">
 {% endblock %}
 
-<!-- Add the gif and start button to the page -->
-{% block main %}
-<div class="content">
-    <div class="video-container">
-        <div class="start-btn-container">
-            <button id="start-btn" class="start-btn">Start</button>
+
+{% block title %}
+    LeetClone
+{% endblock %}
+
+
+{% block content %}
+    <!-- PARTICLE EFFECT FOR HOME PAGE -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="min-vh-100 d-flex">
+        <div class="row flex-grow-1 g-0" id="main-cols">
+            <div class="col-2">
+                <!-- PADDING COLUMN -->
+            </div>
+            <div class="col-4 d-flex justify-content-center align-items-center">
+                <a href="{{ "questions" }}">
+                    <button type="button" class="btn btn-primary me-2 btn-lg" id="question-btn">Start</button>
+                </a>
+            </div>
+            <div class="col-6">
+                hi
+            </div>
         </div>
-        <video id="intro-gif" autoplay muted playsinline>
-            <source src="{{url_for('static', filename='images/giff.mp4')}}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
     </div>
-</div>
 {% endblock %}
 
-<!-- Add the Home screen javascript -->
+
 {% block scripts %}
-<script src="{{ url_for( 'static', filename='js/home_script.js' ) }}"></script>
+    <script src="{{ url_for( 'static', filename='js/particle.js' ) }}"></script>
+    <script src="{{ url_for( 'static', filename='home_script.js' ) }}"></script>
 {% endblock %}
-

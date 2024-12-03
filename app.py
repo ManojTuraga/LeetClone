@@ -99,10 +99,10 @@ exec = dre.DRE( db_cursor )
 # a question on the question page, so the page
 # isc ommented out
 list_of_base_pages = \
-    [ ("home", "Home Page"), 
-      #("qna", "Problem Solver" ), 
+    [ ("home", "Home"), 
+      #("qna", "Code" ), 
       ( "questions", "Questions" ), 
-      ( "pvp", "Player vs. Player" ) ]
+      ( "pvp", "Multiplayer" ) ]
 
 # Note the location of the source and destination
 # targets for the build directories. This will copy
@@ -110,6 +110,9 @@ list_of_base_pages = \
 # code
 SOURCE_LIB_DIR = "lib/"
 DEST_LIB_DIR = "build/"
+
+# Current room placement map
+room_placement = {}
 
 ###############################################################################
 # Callbacks
@@ -330,7 +333,13 @@ def qna_page_code_submit_node( data ):
     session[ "test_results" ] = test_results
 
     if "room_id" in data and [ True ] * len( test_results ) == test_results and len( test_results ) > 0 :
-        socketio.emit( "TEST MULTIPLAYER", {}, to=data[ "room_id" ], skip_sid=request.sid )
+        socketio.emit( "TEST MULTIPLAYER", { "position" : room_placement[ data[ "room_id" ] ] }, to=data[ "room_id" ], 
+                      skip_sid=[ id for id in list( socketio.server.manager.rooms['/'][ data[ "room_id" ] ].keys() ) if id != request.sid ] )
+        
+        room_placement[ data[ "room_id" ] ] += 1
+
+        if len( list( socketio.server.manager.rooms['/'][ data[ "room_id" ] ].keys() ) ) == 1:
+            room_placement.pop( data[ "room_id" ] )
 
     # Indicate that the operation was successful
     return json.dumps( { "status": "success" } )
@@ -353,6 +362,9 @@ def pvp_page_join_node( data ):
 
     # Allow the user to join the current room
     join_room( data[ "room_id" ] )
+
+    if data[ "room_id" ] not in room_placement.keys():
+        room_placement[ data[ "room_id" ] ] = 1
     
     # Trigger the callback for what the client should do
     # after they have joined a room
@@ -399,6 +411,7 @@ def pvp_page_leave_node( data ):
     # the room, send an empty list of socket ids back to the clients
     # Otherwise, send a list of all the players that are in the room
     if data[ "room_id" ] not in socketio.server.manager.rooms['/']:
+        room_placement.pop( data[ "room_id" ] )
         emit('JOIN ROOM POST', { 'sids': [] }, to=data[ "room_id" ], skip_sid=request.sid )
     else:
         emit('JOIN ROOM POST', { 'sids': list( socketio.server.manager.rooms['/'][ data[ "room_id" ] ].keys() ) }, to=data[ "room_id" ], skip_sid=request.sid )

@@ -1,167 +1,118 @@
-/*
-Module: pvp.css
-Creation Date: November 21st, 2024
-Author: Clare Channel
-Contributors: Clare Channel
+@font-face {
+  font-family: "Geist-Bold";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Bold.otf");
+}
+@font-face {
+  font-family: "Geist-Regular";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Regular.otf");
+}
+@font-face {
+  font-family: "Geist-Light";
+  src: url("../font/Geist-v1.4.01/Geist-v1.4.01/otf/Geist-Light.otf");
+}
+@font-face {
+  font-family: "GeistMono-SemiBold";
+  src: url("../font/GeistMono-1.4.01/GeistMono-1.4.01/otf/GeistMono-SemiBold.otf");
+}
+.text-box {
+  min-height: 200px;
+  color: #F5F5F5;
+  border: 0.3rem solid #48CFCB;
+  box-shadow: 0 0 0.5rem 0.1rem #48CFCB, inset 0 0 0.5rem 0.1rem #48CFCB;
+  background-color: #424242;
+  border-radius: 0.2rem;
+  font-family: "Geist-Regular";
+  font-size: 1em;
+}
 
-Description:
-    This Module contains the styling for the pvp page.
-    
-Sources: W3Schools, GeekforGeeks, ChatGPT
-*/
+.box-title {
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+  font-size: 2rem;
+}
 
-/* NOTE: Team 42 recognizes that parts of this code were
-         assisted with the use of ChatGPT */
+.lang-select {
+  background-color: #525252;
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+  border-width: 0.15em;
+  border-color: #F5F5F5;
+}
+.lang-select option {
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+}
 
-@import url("imports/base.css");
-/* Styling for the dropdown container - W3Schools */ 
-.dropdown 
-    {
-    position: relative;
-    display: inline-block;
-    }
+.code-buttons button {
+  font-family: "GeistMono-SemiBold";
+  color: #F5F5F5;
+  background-color: transparent;
+  border-color: #F5F5F5;
+  border-width: 0.15em;
+}
+.code-buttons button:hover {
+  color: #F5F5F5;
+  box-shadow: inset 0em 0em 1.5em 0em #F5F5F5;
+}
+.code-buttons button:active {
+  background-color: #48CFCB;
+  border-color: #48CFCB;
+  color: #525252;
+  box-shadow: none;
+}
+.code-buttons button:active:focus {
+  background-color: #48CFCB;
+  border-color: #48CFCB;
+  color: #525252;
+  box-shadow: none;
+}
+.code-buttons button:focus {
+  background-color: #48CFCB;
+  border-color: #48CFCB;
+  color: #525252;
+  box-shadow: none;
+}
 
-/* Styling for the dropdown content - W3Schools */ 
-.dropdown-content 
-    {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    }
+#code-box {
+  min-height: 100px;
+}
 
-/* Styling for the dropdown content values - W3Schools */ 
-.dropdown-content p 
-    {
-  color: black;
-  padding: 12px 16px;
+a {
   text-decoration: none;
-  display: block;
-    }
-
-/* Styling for the dropdown content values when hovering - W3Schools */ 
-.dropdown-content p:hover 
-    {
-    background-color: white;
-    }
-
-/* Styling for the dropdown button when hovering - W3Schools */ 
-.dropdown:hover .dropdown-content 
-    {
-    display: block;
-    }
-
-/* Styling for the main container */
-.container {
-  display: flex;
-  justify-content: space-between;
-  width: 80%;
 }
 
-/* Left side styles */
-.left-side {
-  width: 45%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #3f3f3f;
-  color: white;
+.question-title {
+  color: #F5F5F5;
+  font-family: "GeistMono-SemiBold";
+  font-size: 2rem;
+  border: 0.2rem solid #48CFCB;
+  box-shadow: inset 0 0 0.5rem 0.1rem #48CFCB, 0 0 0.5rem 0.1rem #48CFCB;
+  background-color: #229799;
+  border-radius: 0.2rem 0.2rem 0rem 0rem;
+  border-bottom: none;
+  transition: 0.5s;
+}
+.question-title:hover {
+  background-color: #48CFCB;
+  color: #F5F5F5;
+  text-shadow: 0 0 0.5rem #F5F5F5;
 }
 
-/* Colors for left side */
-.left-side h2,
-.left-side label,
-.left-side button {
-  color: white; 
+.question-box {
+  min-height: 200px;
+  color: #F5F5F5;
+  border: 0.3rem solid #48CFCB;
+  box-shadow: 0 0 0.5rem 0.1rem #48CFCB, inset 0 0 0.5rem 0.1rem #48CFCB;
+  background-color: #424242;
+  border-radius: 0.2rem;
+  font-family: "Geist-Regular";
+  font-size: 1em;
+  border-radius: 0rem 0rem 0.2rem 0.2rem;
+  max-height: 1000px;
 }
 
-/* Margins for left side headers */
-.left-side h2 {
-  margin-top: 0;
+#question-scroll {
+  overflow: auto;
 }
 
-/* Left side input styling */
-.left-side input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background-color: #000; 
-  color: white; 
-}
-
-/* Left Side border styling */
-.left-side h2, .left-side label {
-  background-color: #3f3f3f; 
-  padding: 5px;
-  border-radius: 4px;
-}
-
-/* Left Side button styling */
-.left-side button {
-  width: 100%;
-  background-color: #f44336; 
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 8px; 
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-/* Left side button hover styling */
-.left-side button:hover {
-  background-color: #d32f2f;
-}
-
-/* Right side styles */
-.right-side {
-  width: 45%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #3f3f3f;
-}
-
-/* Waiting room styles */
-.waiting-room {
-  margin-top: 20px;
-  border: 1px solid #000000;
-  padding: 10px;
-  height: 200px;
-  overflow-y: scroll;
-  color: white;
-  background-color: #000000;
-  border-radius: 8px;
-}
-
-.waiting-room ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.waiting-room li {
-  padding: 5px;
-  background-color: #ffffff;
-  margin-bottom: 5px;
-  border-radius: 4px;
-}
-
-/* General button style */
-.button {
-  width: 100%;
-  background-color: #f44336; 
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 8px; 
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-.button:hover {
-  background-color: #d32f2f;
-}
+/*# sourceMappingURL=pvp.css.map */
