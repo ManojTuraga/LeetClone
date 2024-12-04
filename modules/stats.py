@@ -71,6 +71,19 @@ class CodeStatistics:
 
     # Calculate approx. time complexity
     def calc_approx_t_complex(self):
+        # Sanatize inputs from repeat values, NaN, and inf/-inf
+        remove_indexes = []
+        vals = []
+        for i, value in zip(list(range(len(self.n_table))), self.n_table):
+            if np.isnan(value) or np.isinf(value) or (value in vals):
+                remove_indexes.append(i)
+            else:
+                vals.append(value)
+
+        for i in remove_indexes[::-1]:
+            self.n_table.pop(i)
+            self.time_table.pop(i)
+            
         # Generate a 5th degree polynomial fit to see what is the most significant
         # leading coefficient
         poly_deg = np.polyfit(self.n_table, self.time_table, 5)
