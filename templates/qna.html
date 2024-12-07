@@ -83,8 +83,12 @@ Code Executor
                         <button type="button" class="col-4 btn me-2" id="run-code">run</button>
                     
                         <select class="col form-select lang-select" id="lang-button">
-                            {% for lang in supported_langs %}
-                            <option value="{{ lang }}">{{ lang }}</option>
+                            {% for l in supported_langs %}
+                            {% if l == lang %}
+                            <option value="{{ l }}" selected>{{ l }}</option>
+                            {% else %}
+                            <option value="{{ l }}">{{ l }}</option>
+                            {% endif %}
                             {% endfor %}
                         </select>
                     </div>
