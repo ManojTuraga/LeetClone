@@ -1,17 +1,19 @@
 @use "baseScss/global";
 @use "baseScss/mixins";
 
-
+// Styling for text boxes in the pvp page
 .text-box
 {
     @include mixins.text-boxes();
 }
 
+// Styling for the titles of text boxes on the pvp page
 .box-title
 {
     @include mixins.header-fonts();
 }
 
+// Styling for the language select button on the pvp page
 .lang-select
 {
     background-color: global.$bgcolor;
@@ -28,6 +30,7 @@
     
 }
 
+// Styling for the code buttons on the pvp page
 .code-buttons
 {
     button 
@@ -71,6 +74,7 @@
     }
 }
 
+// Styling for the code box on the pvp page
 #code-box
 {
     min-height: 100px;
@@ -81,6 +85,7 @@ a
     text-decoration: none;
 }
 
+// Styling for the question titile on the pvp page
 .question-title
 {
     @include mixins.header-fonts();
@@ -101,6 +106,7 @@ a
     }
 }
 
+// Styling for the question box on the pvp page
 .question-box
 {
     @include mixins.text-boxes();
@@ -108,6 +114,7 @@ a
     max-height: 800px;
 }
 
+// Styling for the scrollablity of the questions box
 #question-scroll
 {
     overflow: auto;

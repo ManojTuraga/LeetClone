@@ -1,11 +1,13 @@
 @use "baseScss/global";
 @use "baseScss/mixins";
 
+// Styling for the header bar
 #header-bar 
 {
     position: absolute;
 }
 
+// Styling for the partical animation
 #particle-canvas
 {
     position: fixed;
@@ -14,6 +16,7 @@
     z-index: -1;
 }
 
+// Styling for the start button
 #question-btn
 {
     font-family: global.$boldfont;

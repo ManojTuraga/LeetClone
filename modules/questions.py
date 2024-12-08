@@ -7,23 +7,21 @@ Contributors: Manoj Turaga
 Description:
     This module encapsulates the logic for fetching the information surrounding
     the question that is to be answered in the application
-    
-    All the logic in here is stubbed logic, which is in no way the acutal logic
 
 Inputs:
-    None
+    The id of the question in the database
 
 Outputs:
-    None
+    Any relevant information for the selected question
 
 Preconditions:
-    None
+    There must be a database with the expected format for questions
 
 Postconditions:
-    None
+    The database is not modified after the code is run
 
 Error Conditions:
-    None
+    The question does not exist in the database
 
 Side Effects:
     None

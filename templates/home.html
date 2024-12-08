@@ -13,11 +13,14 @@ Sources: W3Schools, Flask Documentation:
 -->
 
 {% extends "baseTemplates/base.html" %}
+
+<!-- Add the styling for the HTML -->
 {% block head %}
     <link href="{{ url_for( 'static', filename='css/home.css' ) }}" rel="stylesheet">
 {% endblock %}
 
 
+<!-- Update the tab title -->
 {% block title %}
     LeetClone
 {% endblock %}
@@ -33,10 +36,12 @@ Sources: W3Schools, Flask Documentation:
                 <!-- PADDING COLUMN -->
             </div>
             <div class="col-4 d-flex justify-content-center align-items-center">
+                <!-- Add the start button which links to the questions page -->
                 <a href="{{ "questions" }}">
                     <button type="button" class="btn btn-primary me-2 btn-lg" id="question-btn">Start</button>
                 </a>
             </div>
+            <!-- More padding -->
             <div class="col-6">
                 hi
             </div>
@@ -46,6 +51,7 @@ Sources: W3Schools, Flask Documentation:
 
 
 {% block scripts %}
+    <!-- Add the required javascript scrips for this page-->
     <script src="{{ url_for( 'static', filename='js/particle.js' ) }}"></script>
     <script src="{{ url_for( 'static', filename='home_script.js' ) }}"></script>
 {% endblock %}

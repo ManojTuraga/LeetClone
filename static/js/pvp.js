@@ -15,18 +15,24 @@ Outputs:
     None
 
 Preconditions:
+    The user is able to join a room
 
 Postconditions:
+    If a room is started, then they are playing the question within the context of a
+    room
 
 Error Conditions:
     None
 
 Side Effects:
+    None
 
 Invariants:
-
-Known Faults:
     None
+    
+Known Faults:
+    There have been issues with the autofill prevent the user from entering the
+    code and joining the room
 
 Sources: W3Schools, Decode.sh, Flask SocketIO Documentation
 ******************************************************************************/

@@ -25,10 +25,11 @@ Error Conditions:
     None
 
 Side Effects:
-    None
+    This will affect what questions and what is loaded on the
+    website
 
 Invariants:
-    None
+    There will only be one shared connection to the server
 
 Known Faults
     None

@@ -17,22 +17,25 @@ Outputs:
     Result of test cases and time complexity
 
 Preconditions:
-    None
+    The question id must exist within the database
 
 Postconditions:
-    None
+    Modify the state of the webpage with the pass/fail state of the test cases
+    and when applicable, the time complexity of the submitted code
 
 Error Conditions:
     None
 
 Side Effects:
-    None
+    This will force other clients to wait until the current client
+    finishes code execution
 
 Invariants:
     The server must be set up on a linux or windows environment
 
 Known Faults
-    The DRE cannot detect malicious code
+    The DRE cannot detect malicious code and assumes the time complexity
+    is a polynomial function.
 '''
 ###############################################################################
 # Imports

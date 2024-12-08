@@ -1,16 +1,20 @@
 @use "baseScss/global";
 @use "baseScss/mixins";
 
+// Styling for the text box on the qna page
 .text-box
 {
     @include mixins.text-boxes();
 }
 
+// Styling for the box title on the qna page
 .box-title
 {
     @include mixins.header-fonts();
 }
 
+// Styling for the language select button on the
+// qna page
 .lang-select
 {
     background-color: global.$bgcolor;
@@ -27,6 +31,7 @@
     
 }
 
+// Styling for the code related buttons on the qna page
 .code-buttons
 {
     button 

@@ -132,6 +132,9 @@ def execute_code( code, context, lang ):
 
             # Attempt to execute the code with the test inputs. A success would entail
             # that the program returns 0. Otherwise, indicate that the test failed
+            #
+            # If the code is able to be run, store the runtime in a list to determine
+            # how long did it take to run
             try:
                 if lang == PYTHON_LANG:
                     subprocess.check_output( [ f"python3" ] + 
@@ -156,6 +159,9 @@ def execute_code( code, context, lang ):
 
             time_table.append( time.time() - start_time )
 
+        # Sort the time table and make an enumerated list
+        # and input it into the code statstics generator to
+        # determine the approximate time compelxity
         time_table.sort()
         code_stat_getter = stats.CodeStatistics([ i for i in range( len( time_table ) ) ], time_table)
         code_stat_getter.calc_approx_t_complex()
@@ -170,6 +176,9 @@ def execute_code( code, context, lang ):
             subprocess.call(["rm", str(BUILD_DIR) + f"/{filename}{LANGUAGE_MAP[lang][FILE_EXT]}"])
             subprocess.call(["rm", str(BUILD_DIR) + f"/{filename}"])
 
+    # Return the result of the test cases, the complexity
+    # of the submissio, and the average runtime of
+    # the program
     return __result, complexity, sum( time_table )/len( time_table )
 
 def random_file_name():

@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
+// The following is a header only implementation for a linked
+// list that can be used in the leetclone standard library
+// The following code is developed by Manoj Turaga and all logic
+// was sourced from his head
+
 typedef struct node_t
     {
     void *                 val;

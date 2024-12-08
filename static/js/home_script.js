@@ -19,13 +19,13 @@ Preconditions:
     The user clicks the start button
 
 Postconditions:
-    A new page is now loaded.
+    A new page is now loaded with the question selected
 
 Error Conditions:
     None
 
 Side Effects:
-    None
+    User cache will be changed with relevant state data
 
 Invariants
     None

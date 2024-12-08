@@ -30,7 +30,7 @@ Error Conditions:
     Some HTML files are missing
 
 Side Effects:
-    None
+    Session side cache is edited with session data
 
 Invariants:
     All actions taken on the page must fall within the expected behavior.
@@ -49,20 +49,26 @@ Sources: W3Schools, Flask Documentation, SocketIO Documentation
 ###############################################################################
 # Imports
 ###############################################################################
+
+# Import the Time module for time based debugging
 import time
+
+# Import the JSON library to be able to send and receive
+# json requests
 import json
+
+# The only use case for this library is to be able to copy
+# the leetclone standard library into the build directory
 import shutil
-import os
 
 # From the Flask module, import the Flask app
 # class, the html template renderer, and the
 # request object.
 # Also import the flask server sessions and the
 # api for using socketio with flask
-import flask
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, session
 from flask_session import Session
-from flask_socketio import SocketIO, send, emit, join_room, leave_room, rooms
+from flask_socketio import SocketIO, emit, join_room, leave_room, rooms
 
 # Import all the files from the modules directory
 from modules import questions as q
@@ -200,15 +206,21 @@ def qna():
     if "tc_data" not in session:
         session[ "tc_data" ] = "none"
     
+    # Default the runtime to be 0
     if "run_time" not in session:
         session[ "run_time" ] = str(0)
 
+    # Initialize the Time diff to be 0 
     time_diff = 0
 
+    # Determine how long this particular request took
+    # and store it in the cache
     if len( test_results ) > 0 and all( test_results ):
         session[ "end_time" ] = time.time()
         time_diff = session[ "end_time" ] - session[ "start_time" ]
 
+    # Render the qna page with all the required state
+    # variables
     return render_template( 'qna.html', 
                             links=list_of_base_pages, 
                             active_page="qna", 

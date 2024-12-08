@@ -1,11 +1,13 @@
 @use "baseScss/global";
 @use "baseScss/mixins";
 
+// Styling for links on the questions page
 a
 {
     text-decoration: none;
 }
 
+// Styling for the question title on the questions page
 .question-title
 {
     @include mixins.header-fonts();
@@ -26,6 +28,7 @@ a
     }
 }
 
+// Styling for the question boxes on the questions page
 .question-box
 {
     @include mixins.text-boxes();

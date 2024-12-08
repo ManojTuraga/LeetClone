@@ -1,3 +1,14 @@
+/******************************************************************************
+Module: particle.js
+Creation Date: Novemeber 20th, 2024
+Author: Connor Forristal
+Contributors: Connor Forristal
+
+Description:
+   This is purely a visual moduel that allows for the particle movement on
+   the start page of the application
+******************************************************************************/
+
 // https://www.kirupa.com/canvas/creating_motion_trails.htm
 // https://www.youtube.com/watch?app=desktop&v=D_BPilf_F8k&t=41s
 // https://www.jeffreythompson.org/collision-detection/circle-circle.php
