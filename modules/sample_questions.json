@@ -28,6 +28,45 @@
       }
     },
     {
+      "qid": 100,
+      "prompt": {
+        "title": "How Long until the 4->2->1->4 Cycle",
+        "text": "There is a pattern by which you take some input number, and repeate the following process upon it:\n -If it is divisible by 2, divide it by 2. \n -If not, multiply it by 3 and add 1. \nThis always seems to end in the cycle seen in the title. Write a function that takes some positive input int, and tells how many steps have to be nexecuted on the number until the cycle occurs. For example, 8 or 1 would be 4 and 16 would output 5."
+      },
+      "test_cases": {
+        "1": {
+          "inputs": "1",
+          "output": "4"
+        },
+        "2": {
+          "inputs": "16",
+          "output": "5"
+        },
+        "3": {
+          "inputs": "8",
+          "output": "4"
+        },
+        "4": {
+          "inputs": "11",
+          "output": "15"
+        },
+        "5": {
+          "inputs": "13",
+          "output": "9"
+        }
+      },
+      "code": {
+        "python": {
+          "starter_code": "def cycle(a):\n\t#write code here",
+          "context_code": "import sys\ndef main():\n\tsys.exit( 0 if cycle( int(sys.argv[1])) == int(sys.argv[2]) else 1 )"
+        },
+        "c": {
+          "starter_code": "int cycle(int a){\n\t//enter code here\n}",
+          "context_code": "#include <stdlib.h>\nint cycle(int a);\nint main(int argc, char *argv[]){\n\tif( cycle( atoi( argv[ 1 ] ) ) == atoi( argv[ 2 ] ) ){return 0;}else{return 1;}\n}"
+        }
+      }
+    },
+    {
       "qid": 2,
       "prompt": {
         "title": "2Subber",
