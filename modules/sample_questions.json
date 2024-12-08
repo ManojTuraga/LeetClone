@@ -193,6 +193,38 @@
           "context_code": "#include <stdlib.h>\n#include \"c/linked_list.h\"\n\nint adder( linked_list_t * list );\n\nint main( int argc, char * argv[] )\n\t{\n\tint ret_val;\n\tint number_of_inputs = atoi( argv[ argc - 2 ] );\n\tint output = atoi( argv[ number_of_inputs + 1 ] );\n\tlinked_list_t num_list;\n\n\tlinked_list_init( &num_list );\n\n\tfor( int i = 1; i <= number_of_inputs; i++ )\n\t\t{\n\t\tint * temp = ( int * ) malloc( sizeof( int ) );\n\t\t*temp = atoi( argv[ i ] );\n\t\t( *( num_list.linked_list_push ) )( &num_list, temp, num_list.length );\n\t\t}\n\n\tif( adder( &num_list ) == output )\n\t\t{\n\t\tret_val = 0;\n\t\t}\n\telse\n\t\t{\n\t\tret_val = 1;\n\t\t}\n\n\tfor( int i = 0; i < num_list.length; i++ )\n\t\t{\n\t\tfree( ( int * ) linked_list_get( &num_list, i ) );\n\t\t}\n\n\tlinked_list_destroy( &num_list );\n\n\treturn ret_val;\n\t}"
         }
       }
+    },
+    {
+      "qid": 6,
+      "prompt": {
+        "title": "StringReverser",
+        "text": "Create a function that reverses a given string"
+      },
+      "test_cases": {
+        "1": {
+          "inputs": "hello",
+          "output": "olleh"
+        },
+        "2": {
+          "inputs": "world",
+          "output": "dlrow"
+        },
+        "3": {
+          "inputs": "12345",
+          "output": "54321"
+        }
+      },
+      "code": {
+        "python": {
+          "starter_code": "def reverse_string(s):\n\t#write code here",
+          "context_code": "import sys\ndef main():\n\tresult = reverse_string(sys.argv[1])\n\tsys.exit(0 if result == sys.argv[2] else 1)"
+        },
+        "c": {
+          "starter_code": "#include <string.h>\nvoid reverse_string(char* s){\n\t//enter code here\n}",
+          "context_code": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nvoid reverse_string(char* s);\nint main(int argc, char *argv[]){\n\tchar result[100];\n\tstrcpy(result, argv[1]);\n\treverse_string(result);\n\treturn strcmp(result, argv[2]) == 0 ? 0 : 1;\n}"
+        }
+      }
     }
+    
   ]
 }
